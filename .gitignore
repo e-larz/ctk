@@ -9,12 +9,12 @@ analysis/
 *~
 
 # Build
-*.o
 build/
-obj/
 
 # clangd
 .cache/
+.clang-format
+.clang-tidy
 .clangd/
 compile_commands.json
 
@@ -23,7 +23,7 @@ compile_commands.json
 dep/
 
 # Documentation
-doc/
+doxygen/
 
 # Executables
 *.out
@@ -31,17 +31,24 @@ doc/
 # IDE
 .vscode/
 
+# External
+external/include
+external/lib
+
 # Logs
 *.log
 log/
 
-# Scripts
-script/
-*.sh
+# Object files
+*.o
+obj/
+
+# Static libraries
+*.a
 
 # Shared objects
 *.so
 *.so.*
 
-# Static libraries
-*.a
+# Scripts
+*.sh
