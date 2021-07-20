@@ -271,8 +271,7 @@ TAB_SIZE               = 4
 
 ALIASES  = "cast=\xrefitem cast \"Cast\" \"Cast list\""
 ALIASES += "fixme=\xrefitem fixme \"Fix me\" \"Fix me list\""
-ALIASES += "cc=@code{.c}"
-ALIASES += "endcc=@endcode"
+ALIASES += "cc{1}=@code{.c}\1@endcode"
 ALIASES += "v=@code{.unparsed}"
 ALIASES += "endv=@endcode"
 ALIASES += "C17=https://web.archive.org/web/20181230041359if_/http://www.open-std.org/jtc1/sc22/wg14/www/abq/c17_updated_proposed_fdis.pdf"
@@ -280,7 +279,7 @@ ALIASES += "C17{2}=[C17 \1](@C17\2)"
 ALIASES += "success=<b style=\"color:green\">On success</b>"
 ALIASES += "failure=<b style=\"color:red\">On failure</b>"
 ALIASES += "p{1}=<span class=\"params\"><span class=\"paramname\">\1</span></span>"
-ALIASES += "usage{1}=@par Usage^^ @cc \1 @endcc"
+ALIASES += "usage{1}=@par Usage^^ @cc{\1}"
 ALIASES += "licence{1}=@par Licence^^ @v \1 @endv"
 
 
