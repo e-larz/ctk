@@ -1,15 +1,36 @@
+# SPDX-License-Identifier: 0BSD
 ################################################################################
 # CC
+#
+# [R]: Variable can be redefined with a single value.
+# [+]: Variable can be redefined and/or have values added to it.
+# [X]: Variable must not be redefined nor have values added to it.
 ################################################################################
-CC := gcc-11
-# Warning options for gcc 11.1.0
+# Compiler name                                                              [R]
+CC_NAME := gcc
+# Compiler version                                                           [R]
+CC_VERSION :=
+# Set CC to `name-version`(e.g. gcc-10) if CC_VERSION isn't empty or to `name`
+# (e.g. gcc) otherwise
+ifeq ($(strip $(CC_VERSION)),)
+CC_VERSION := $(shell \
+    gcc -v 2>&1 >/dev/null \
+    | sed -Ene 's/gcc version ([0-9]+).*$$/\1/p')
+endif
+CC = $(CC_NAME)-$(CC_VERSION)
+################################################################################
+# WARNING
+#
 # https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html
+################################################################################
 # Enable the bare minimum number of warnings to write C
 CC_WARNING += -Wall
 # calloc/malloc/realloc(0) (behavior is implementation defined)
 CC_WARNING += -Walloc-zero
 # Implicit conversions from arithmetic operations
+ifneq ($(filter $(CC),gcc-11),)
 CC_WARNING += -Warith-conversion
+endif
 # Warn for out of bounds access to arrays at the end of a struct and when arrays
 # are accessed through pointers
 # May give false positives
@@ -18,14 +39,18 @@ CC_WARNING += -Warray-bounds=2
 # Function call is cast to the wrong type
 CC_WARNING += -Wbad-function-cast
 # C2x features not present in C11
+ifneq ($(filter $(CC),gcc-11),)
 CC_WARNING += -Wc11-c2x-compat
+endif
 # Pointer is cast to a type with stricter alignment
 # Warn even for platform allowing missaligned memory access(x86)
+ifneq ($(filter $(CC),gcc-8 gcc-9 gcc-10 gcc-11),)
 CC_WARNING += -Wcast-align=strict
+endif
 # Pointer is cast to remove a type qualifier
 CC_WARNING += -Wcast-qual
 # Implicit cast that may change the value
-# Enable -Wsign-conversion and Wfloat-conversion
+# Enable -Wsign-conversion and -Wfloat-conversion
 CC_WARNING += -Wconversion
 # GCC can't optimize the code
 CC_WARNING += -Wdisabled-optimization
@@ -125,16 +150,27 @@ CC_WARNING += -Wvla
 CC_WARNING += -Wwrite-strings
 CC_WARNING += -D_FORTIFY_SOURCE=2
 # Treat -Wpedantic warnings as errors
-CC_ERROR     := -pedantic-errors
+CC_ERROR := -pedantic-errors
 # Treat all warnings as errors
-CC_ERROR     += #-Werror
+CC_ERROR += #-Werror
+# Set the C version to the latest standard supported by the compiler used.
+ifneq ($(filter $(CC),gcc-8 gcc-9 gcc-10 gcc-11),)
 CC_C_VERSION := -std=c17
+else
+CC_C_VERSION := -std=c11
+endif
 # Default build mode is debug
 CC_DEBUG := -g3
-CC_OPTIMIZATION := -O1
+# Og is a level of optimization specially made for debug.
+CC_OPTIMIZATION := -Og
 CC_PROFILING    := #-pg
-# Valgrind doesn't seem to work properly on executables build with --coverage
-CC_COVERAGE  := #--coverage
+# Valgrind doesn't seem to work properly on executables build with --coverage.
+# Invoke -fprofile-arcs -ftest-coverage(when compiling) and -lcov(when linking).
+# Create *.gcno files.
+COVERAGE := false
+ifeq ($(COVERAGE),true)
+CC_COVERAGE := --coverage
+endif
 # Directories to be used with the -I option
 CC_IDIRS  = $(SRC_DIRS:%=-I%)
 CC_IDIRS += $(INC_DIRS:%=-I%)
@@ -164,15 +200,24 @@ CFLAGS += -o $@
 # MP   : Create a target for each .h
 # MF   : Output path for the .d file
 CPPFLAGS = -MMD -MT $@ -MP -MF $(DEP_PATH)/$*.d
+
+# Command to make a preprocessor pass only.
+PREPROCESSOR  = $(CC)
+PREPROCESSOR += $<
+PREPROCESSOR += $(CC_C_VERSION)
+PREPROCESSOR += $(CC_IDIRS)
+PREPROCESSOR += $(CPPFLAGS)
+PREPROCESSOR += -dU -E
+PREPROCESSOR += -o $@
 # Command to compile *.c files
 COMPILE  = $(CC)
 COMPILE += $<
 COMPILE += -c -fPIC
 COMPILE += $(CFLAGS)
 COMPILE += $(CPPFLAGS)
-# Extra flags (-Lfoo) for the compilator when invoking the linker
+# Extra flags (-Lfoo) for the compiler when invoking the linker
 LDFLAGS = $(EXTERNAL_LIB_DIRS:%=-L%)
-# Libs name (-lfoo) for the compilator when invoking the linker
+# Libs name (-lfoo) for the compiler when invoking the linker
 # Must be put at the very end of a link command
 LDLIBS  =
 # Command to link *.o files into a program
@@ -192,7 +237,16 @@ LINK_SHARED += $(LDLIBS)
 ################################################################################
 # AR
 ################################################################################
-AR := gcc-ar-11
+# Archiver name                                                              [R]
+AR_NAME := gcc-ar
+# Archiver version                                                           [R]
+AR_VERSION ?= $(CC_VERSION)
+# Set AR to `name-version` if AR_VERSION isn't empty or to `name` otherwise
+ifeq ($(strip $(CC_VERSION)),)
+AR = $(AR_NAME)
+else
+AR = $(AR_NAME)-$(AR_VERSION)
+endif
 # Extra flags to give to ar
 ARFLAGS  = -rcs
 # Command to archive *.o files
