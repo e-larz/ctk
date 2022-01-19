@@ -7,11 +7,6 @@
 # Set `all` as the default target.
 .DEFAULT_GOAL := all
 
-# Set the shell to `/usr/bin/env bash` since it's apparently more portable than
-# the default `/bin/sh`.
-# https://stackoverflow.com/questions/10376206/what-is-the-preferred-bash-shebang
-SHELL := /usr/bin/env bash
-
 # Eliminate use of the built-in rule-specific variables(--no-builtin-variables).
 # Eliminate use of the built-in implicit rules(--no-builtin-rules/-r).
 MAKEFLAGS += -R
