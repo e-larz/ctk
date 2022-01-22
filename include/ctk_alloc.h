@@ -119,10 +119,7 @@ void * ctk_realloc(void * ptr, size_t size);
  *
  * @return Nothing.
  */
-void ctk_free_impl(void ** ptr);
-
-#define ctk_free(ptr) \
-    ctk_free_impl((void **)(ptr))
+void ctk_free(void ** ptr);
 /*==============================================================================
     GUARD
 ==============================================================================*/
