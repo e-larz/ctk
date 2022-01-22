@@ -27,3 +27,9 @@ which says in its summary:
 - `ctk_time`: Provide time related functions.
   - `ctk_localtime_r()`: Reentrant version of `strerror()`
   - `ctk_iso8601_time()`: Convert time since Epoch to a ISO 8601 formatted string.
+- `ctk_error`: Provide error related functions.
+  - `CTK_ERROR_RET_VAL_IF_MSG()`: to make a function return a value and print a custom error message if a condition is true.
+  - `CTK_ERROR_RET_VAL_IF()`: Same as `CTK_ERROR_RET_VAL_IF_MSG()` but with a fixed error message.
+  - `CTK_ERROR_RET_IF()`: Same as `CTK_ERROR_RET_VAL_IF()` but for functions returning `void`.
+  - `CTK_ERROR_RET_NULL_IF()`: Same as `CTK_ERROR_RET_VAL_IF()` but return `NULL`.
+  - `CTK_ERROR_RET_0_IF()`: Same as `CTK_ERROR_RET_VAL_IF()` but return `0`.
