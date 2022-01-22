@@ -1,6 +1,7 @@
+// SPDX-License-Identifier: 0BSD
 /*!
  * @file
- * @copyright
+ * @license{
  * BSD Zero Clause License
  *
  * Permission to use, copy, modify, and/or distribute this software for any
@@ -13,9 +14,10 @@
  * LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
  * OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+ * }
  *
  * @brief
- * Provide time related functions
+ * Provide time related functions.
  */
 /*==============================================================================
     GUARD
@@ -47,12 +49,12 @@
  * - Reentrant version of `localtime()`.
  * - Functionally equivalent to POSIX `localtime_r()`.
  *
- * @param[in]  timer  : Time in seconds since Epoch
- * @param[out] result : Buffer where the result will be stored
+ * @param[in]  timer  : Time in seconds since Epoch.
+ * @param[out] result : Buffer where the result will be stored.
  *
  * @return
- * - @success: A pointer to \p{result}
- * - @failure: `NULL`
+ * - @success: A pointer to \p{result}.
+ * - @failure: `NULL`.
  *
  * @warning
  * - \p{timer} must not be `NULL`
@@ -91,17 +93,17 @@ struct tm * ctk_localtime_r(
  *   2021-03-15T19:37:59-0530
  *   @endv
  *
- * @param[in]  timer  : Time in seconds since Epoch
- * @param[out] result : Buffer where the string will be stored
- * @param[in]  length : Length of the result buffer
+ * @param[in]  timer  : Time in seconds since Epoch.
+ * @param[out] result : Buffer where the string will be stored.
+ * @param[in]  length : Length of the result buffer.
  *
  * @return
- * - @success: A pointer to \p{result}
- * - @failure: `NULL`
+ * - @success: A pointer to \p{result}.
+ * - @failure: `NULL`.
  *
  * @warning
- * - \p{result} must not be `NULL`
- * - \p{length} must be >= #CTK_TIME_ISO8601_STR_LENGTH
+ * - \p{result} must not be `NULL`.
+ * - \p{length} must be >= #CTK_TIME_ISO8601_STR_LENGTH.
  *
  * @see
  * - https://en.wikipedia.org/wiki/ISO_8601

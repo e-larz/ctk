@@ -1,6 +1,7 @@
+// SPDX-License-Identifier: 0BSD
 /*!
  * @file
- * @copyright
+ * @license{
  * BSD Zero Clause License
  *
  * Permission to use, copy, modify, and/or distribute this software for any
@@ -13,10 +14,11 @@
  * LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
  * OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+ * }
  *
  * @brief
- * Detect various platforms, OSes, compilers, language features, etc through
- * macros
+ * Detect various platforms, OSes, compilers, language features, etc. through
+ * macros.
  */
 /*==============================================================================
     GUARD

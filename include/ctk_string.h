@@ -1,6 +1,7 @@
+// SPDX-License-Identifier: 0BSD
 /*!
  * @file
- * @copyright
+ * @license{
  * BSD Zero Clause License
  *
  * Permission to use, copy, modify, and/or distribute this software for any
@@ -13,9 +14,10 @@
  * LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
  * OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+ * }
  *
  * @brief
- * Provide string related functions
+ * Provide string related functions.
  */
 /*==============================================================================
     GUARD
@@ -48,7 +50,8 @@
     ctk_strerror_r()
 ------------------------------------------------------------------------------*/
 /**
- * Store the string corresponding to an error number into a user-provided buffer
+ * Store the string corresponding to an error number into a user-provided
+ * buffer.
  *
  * - Reentrant version of `strerror()`.
  * - Functionally equivalent to POSIX `strerror_r()`.
@@ -57,18 +60,18 @@
  *   way to get it.
  * - #CTK_STRING_ERR_LENGTH can be used if space is not a huge priority.
  *
- * @param[in]  errnum : Error number
- * @param[out] result : Buffer where the string will be stored
- * @param[in]  length : Length of the result buffer
+ * @param[in]  errnum : Error number.
+ * @param[out] result : Buffer where the string will be stored.
+ * @param[in]  length : Length of the result buffer.
  *
  * @return
- * - @success: `0`
- * - @failure: A non-zero error number
+ * - @success: `0`.
+ * - @failure: A non-zero error number.
  *
  * @warning
- * - \p{errnum} must be a valid error number
- * - \p{result} must not be `NULL`
- * - \p{length} must be >= to the length of the error string
+ * - \p{errnum} must be a valid error number.
+ * - \p{result} must not be `NULL`.
+ * - \p{length} must be >= to the length of the error string.
  *
  * @see
  * - https://en.cppreference.com/w/c/string/byte/strerror
