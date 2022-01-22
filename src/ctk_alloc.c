@@ -26,6 +26,8 @@
 #include <assert.h>
 #include <stdio.h>  // fputs()
 #include <stdlib.h> // calloc(), free(), malloc(), realloc(), size_t, NULL
+// Internal
+#include "ctk_error.h"
 /*==============================================================================
     PUBLIC FUNCTION DEFINITION
 ==============================================================================*/
@@ -34,9 +36,7 @@
 ------------------------------------------------------------------------------*/
 void * ctk_malloc(const size_t size)
 {
-    if(size == 0) {
-        return NULL;
-    }
+    CTK_ERROR_RET_NULL_IF(size == 0);
     void * const mem = malloc(size);
     if(mem == NULL) {
         fputs("malloc() failed!\n", stderr);
@@ -48,9 +48,8 @@ void * ctk_malloc(const size_t size)
 ------------------------------------------------------------------------------*/
 void * ctk_calloc(const size_t num, const size_t size)
 {
-    if(num == 0 || size == 0) {
-        return NULL;
-    }
+    CTK_ERROR_RET_NULL_IF(num == 0);
+    CTK_ERROR_RET_NULL_IF(size == 0);
     void * const mem = calloc(num, size);
     if(mem == NULL) {
         fputs("calloc() failed!\n", stderr);
@@ -62,9 +61,7 @@ void * ctk_calloc(const size_t num, const size_t size)
 ------------------------------------------------------------------------------*/
 void * ctk_realloc(void * const ptr, const size_t size)
 {
-    if(size == 0) {
-        return NULL;
-    }
+    CTK_ERROR_RET_NULL_IF(size == 0);
     void * const mem = realloc(ptr, size);
     if(mem == NULL) {
         fputs("realloc() failed!\n", stderr);
@@ -78,9 +75,7 @@ void ctk_free(void ** const ptr)
 {
     // free(NULL) is a well-defined behaviour, therefore we only need to ensure
     // we can dereference `ptr`.
-    if(ptr == NULL) {
-        return;
-    }
+    CTK_ERROR_RET_IF(ptr == NULL);
     free(*ptr);
     *ptr = NULL;
 }
