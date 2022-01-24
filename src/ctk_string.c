@@ -43,9 +43,9 @@ int ctk_strerror_r(const int errnum, char * const result, const size_t length)
 #if defined(CTK_POSIX) && !defined(_GNU_SOURCE)
     // strerror_r() return an error number but doesn't set errno
     const int err_no = strerror_r(errnum, result, length);
-    if(err_no != 0) {
+    /*if(err_no != 0) {
         fputs("strerror_r() failed!\n", stderr);
-    }
+    }*/
     return err_no;
 //! @todo Support non-POSIX platforms
 #else

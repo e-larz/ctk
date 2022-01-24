@@ -47,7 +47,7 @@
 #define CTK_ERROR_RET_VAL_IF_MSG(cond, retval, msg)                            \
     do {                                                                       \
         if(cond) {                                                             \
-            fprintf(stderr, "%s() failed! %s\n", __func__, msg);               \
+            /*fprintf(stderr, "%s() failed! %s\n", __func__, msg);*/           \
             return retval;                                                     \
         }                                                                      \
     } while(0)

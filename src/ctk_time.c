@@ -46,9 +46,9 @@ struct tm * ctk_localtime_r(
 
 #if defined(CTK_POSIX)
     struct tm * const ptr = localtime_r(timer, result);
-    if(ptr == NULL) {
+    /*if(ptr == NULL) {
         fputs("localtime_r() failed!\n", stderr);
-    }
+    }*/
     return ptr;
 //! @todo Support non-POSIX platforms
 #else
@@ -70,7 +70,7 @@ char * ctk_iso8601_time(
     }
     const size_t byte_cnt = strftime(result, length, CTK_TIME_ISO8601_STR_FMT, &lt);
     if(byte_cnt == 0) {
-        fputs("strftime() failed!\n", stderr);
+        //fputs("strftime() failed!\n", stderr);
         return NULL;
     }
     return result;

@@ -39,9 +39,9 @@ void * ctk_malloc(const size_t size)
 {
     CTK_ERROR_RET_NULL_IF(size == 0);
     void * const mem = malloc(size);
-    if(mem == NULL) {
+    /*if(mem == NULL) {
         fputs("malloc() failed!\n", stderr);
-    }
+    }*/
     return mem;
 }
 /*------------------------------------------------------------------------------
@@ -52,9 +52,9 @@ void * ctk_calloc(const size_t num, const size_t size)
     CTK_ERROR_RET_NULL_IF(num == 0);
     CTK_ERROR_RET_NULL_IF(size == 0);
     void * const mem = calloc(num, size);
-    if(mem == NULL) {
+    /*if(mem == NULL) {
         fputs("calloc() failed!\n", stderr);
-    }
+    }*/
     return mem;
 }
 /*------------------------------------------------------------------------------
@@ -64,9 +64,9 @@ void * ctk_realloc(void * const ptr, const size_t size)
 {
     CTK_ERROR_RET_NULL_IF(size == 0);
     void * const mem = realloc(ptr, size);
-    if(mem == NULL) {
+    /*if(mem == NULL) {
         fputs("realloc() failed!\n", stderr);
-    }
+    }*/
     return mem;
 }
 /*------------------------------------------------------------------------------
