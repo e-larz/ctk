@@ -24,9 +24,9 @@
 // Own header
 #include "ctk_time.h"
 // C Standard Library
-#include <assert.h>
-#include <stdio.h>  // fputs()
 #include <time.h> // struct tm, time_t, strftime(), POSIX localtime_r(), size_t
+// Internal
+#include "ctk_error.h"
 /*==============================================================================
     DEFINE
 ==============================================================================*/
@@ -41,14 +41,11 @@ struct tm * ctk_localtime_r(
     const time_t * restrict const timer, struct tm * restrict const result
 )
 {
-    assert(timer != NULL);
-    assert(result != NULL);
+    CTK_ERROR_RET_NULL_IF(timer == NULL);
+    CTK_ERROR_RET_NULL_IF(result == NULL);
 
 #if defined(CTK_POSIX)
     struct tm * const ptr = localtime_r(timer, result);
-    /*if(ptr == NULL) {
-        fputs("localtime_r() failed!\n", stderr);
-    }*/
     return ptr;
 //! @todo Support non-POSIX platforms
 #else
@@ -61,8 +58,8 @@ struct tm * ctk_localtime_r(
 char * ctk_iso8601_time(
     const time_t timer, char * const result, const size_t length)
 {
-    assert(result != NULL);
-    assert(length >= CTK_TIME_ISO8601_STR_LENGTH);
+    CTK_ERROR_RET_NULL_IF(result == NULL);
+    CTK_ERROR_RET_NULL_IF(length < CTK_TIME_ISO8601_STR_LENGTH);
 
     struct tm lt;
     if(ctk_localtime_r(&timer, &lt) == NULL) {
