@@ -85,9 +85,10 @@ void * ctk_calloc(size_t num, size_t size);
     ctk_realloc()
 ------------------------------------------------------------------------------*/
 /**
- * Wrapper around `realloc()` returning `NULL` if \p{size} is `0`.
+ * Wrapper around `realloc()` returning `NULL` if \p{size} is `0` and setting
+ * \p{ptr} to `NULL` if the reallocation succeeded.
  *
- * @param[in,out] ptr  : Pointer to the memory to reallocate.
+ * @param[in,out] ptr  : Address of the pointer to the memory to reallocate.
  * @param[in]     size : Number of bytes to allocate.
  *
  * @return
@@ -96,8 +97,18 @@ void * ctk_calloc(size_t num, size_t size);
  *
  * @warning
  * - \p{size} must be > `0`.
+ *
+ * @example{
+ *  const size_t size = sizeof(*ptr);
+ *  int * ptr = malloc(size);
+ *  int * a = ctk_realloc((void*)&ptr, size * 2); // Ok: ptr == NULL
+ *  a = ctk_realloc((void*)&a, size * 3); // Ok
+ *  int * b = ctk_realloc((void*)&a, 0);  // Error: b == NULL, a is unchanged
+ *  int * c = ctk_realloc(NULL, 0);       // Error: c == NULL
+ *  int * d = ctk_realloc(NULL, size);    // Ok: same as malloc(size)
+ * }
  */
-void * ctk_realloc(void * ptr, size_t size);
+void * ctk_realloc(void ** ptr, size_t size);
 /*------------------------------------------------------------------------------
     ctk_free()
 ------------------------------------------------------------------------------*/

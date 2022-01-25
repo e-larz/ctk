@@ -60,13 +60,14 @@ void * ctk_calloc(const size_t num, const size_t size)
 /*------------------------------------------------------------------------------
     ctk_realloc()
 ------------------------------------------------------------------------------*/
-void * ctk_realloc(void * const ptr, const size_t size)
+void * ctk_realloc(void ** const ptr, const size_t size)
 {
     CTK_ERROR_RET_NULL_IF(size == 0);
-    void * const mem = realloc(ptr, size);
-    /*if(mem == NULL) {
-        fputs("realloc() failed!\n", stderr);
-    }*/
+    void * const ptr_ = ptr != NULL ? *ptr : NULL;
+    void * const mem = realloc(ptr_, size);
+    if(mem != NULL && ptr != NULL) {
+        *ptr = NULL;
+    }
     return mem;
 }
 /*------------------------------------------------------------------------------
