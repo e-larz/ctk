@@ -17,7 +17,8 @@
  * }
  *
  * @brief
- * Provide wrappers around standard allocation functions.
+ * Provide wrappers around standard allocation functions to make them a bit
+ * safer by providing predictable behaviors.
  *
  * @details
  * Calls to standard functions `malloc()`, `calloc()`, `realloc()` and
@@ -28,7 +29,7 @@
  * they are called with a size of `0`.
  *
  * @see
- * @C17{Standard (ISO/IEC 9899:2017) $7.22.3p1, #subsection.7.22.3}
+ * @C17{7.22.3}
  *
  * @todo
  * - Add wrapper around `aligned_alloc()`
@@ -60,6 +61,10 @@
  *
  * @warning
  * - \p{size} must be > `0`.
+ *
+ * @example{
+ *  int * a = ctk_malloc(sizeof(*a)); // Ok
+ *  int * b = ctk_malloc(0);          // Erro: b == NULL
  */
 void * ctk_malloc(size_t size);
 /*------------------------------------------------------------------------------
@@ -79,6 +84,13 @@ void * ctk_malloc(size_t size);
  * @warning
  * - \p{num} must be > `0`.
  * - \p{size} must be > `0`.
+ *
+ * @example{
+ *  int * a = ctk_calloc(1, sizeof(*a)); // Ok
+ *  int * b = ctk_calloc(0, sizeof(*b)); // Error: b == NULL
+ *  int * c = ctk_calloc(sizeof(*c), 0); // Error: c == NULL
+ *  int * d = ctk_calloc(0, 0);          // Error: d == NULL
+ * }
  */
 void * ctk_calloc(size_t num, size_t size);
 /*------------------------------------------------------------------------------
@@ -162,9 +174,9 @@ void * ctk_realloc(void ** ptr, size_t size);
  * @example{
  *  (ctk_free)(NULL);      // Ok
  *  int * a = NULL;
- *  (ctk_free)((void*)&a); // Ok - a == NULL
+ *  (ctk_free)((void*)&a); // Ok: a == NULL
  *  int * b = malloc(sizeof(*b));
- *  (ctk_free)((void*)&b); // Ok - b == NULL
+ *  (ctk_free)((void*)&b); // Ok: b == NULL
  * }
  */
 void ctk_free(void ** ptr);
@@ -179,9 +191,9 @@ void ctk_free(void ** ptr);
  * @example{
  *  ctk_free(NULL); // Ok
  *  int * a = NULL;
- *  ctk_free(&a);   // Ok - a == NULL
+ *  ctk_free(&a);   // Ok: a == NULL
  *  int * b = malloc(sizeof(*b));
- *  ctk_free(&b);   // Ok - b == NULL
+ *  ctk_free(&b);   // Ok: b == NULL
  * }
  */
 #define ctk_free(ptr) \

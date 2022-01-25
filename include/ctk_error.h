@@ -40,7 +40,7 @@
  * @param[in] retval : Value to return.
  * @param[in] msg    : Message to print.
  *
- * @usage{
+ * @example{
  *   CTK_ERROR_RET_VAL_IF_MSG(buf == NULL, -1, "foo() failed! buf == NULL");
  * }
  */
@@ -61,7 +61,7 @@
  * @param[in] cond   : Condition to be evaluated.
  * @param[in] retval : Value to return.
  *
- * @usage{
+ * @example{
  *   CTK_ERROR_RET_VAL_IF(buf == NULL, -1);
  * }
  */
@@ -76,7 +76,7 @@
  *
  * @param[in] cond : Condition to be evaluated.
  *
- * @usage{
+ * @example{
  *   CTK_ERROR_RET_IF(buf == NULL);
  * }
  */
@@ -91,7 +91,7 @@
  *
  * @param[in] cond : Condition to be evaluated.
  *
- * @usage{
+ * @example{
  *   CTK_ERROR_RET_NULL_IF(buf == NULL);
  * }
  */
@@ -106,7 +106,7 @@
  *
  * @param[in] cond : Condition to be evaluated.
  *
- * @usage{
+ * @example{
  *   CTK_ERROR_RET_0_IF(buf == NULL);
  * }
  */
