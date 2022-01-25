@@ -969,7 +969,7 @@ RECURSIVE              = YES
 # Note that relative paths are relative to the directory from which doxygen is
 # run.
 
-EXCLUDE  = dep
+EXCLUDE  = build
 EXCLUDE += include/generated
 EXCLUDE += include/impl
 EXCLUDE += test
