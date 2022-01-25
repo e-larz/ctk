@@ -72,7 +72,7 @@ void * ctk_realloc(void * const ptr, const size_t size)
 /*------------------------------------------------------------------------------
     ctk_free()
 ------------------------------------------------------------------------------*/
-void ctk_free(void ** const ptr)
+void (ctk_free)(void ** const ptr)
 {
     // free(NULL) is a well-defined behaviour, therefore we only need to ensure
     // we can dereference `ptr`.

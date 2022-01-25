@@ -105,13 +105,44 @@ void * ctk_realloc(void * ptr, size_t size);
  * Wrapper around `free()` setting \p{*ptr} to `NULL` after freeing it.
  *
  * - Deallocate memory block allocated with `malloc()`, `calloc()`, `realloc()`
- *   or their wrappers and set the pointer to `NULL`.
+ *   or their wrappers and set \p{*ptr} to `NULL`.
+ * - Since \p{ptr} is a double pointer, a simple pointer parameter must be
+ *   passed as `(void*)&ptr`. Use #ctk_free() macro to to pass parameter as
+ *   `&ptr`.
+ * - #ctk_free() macro having the same name, this function must be enclosed with
+ *   parenthesis to call it(i.e, `(ctk_free)((void*)&ptr)`).
  *
  * @param[in,out] ptr : Address of the pointer to the memory to deallocate.
  *
  * @return Nothing.
+ *
+ * @example{
+ *  (ctk_free)(NULL);      // Ok
+ *  int * a = NULL;
+ *  (ctk_free)((void*)&a); // Ok - a == NULL
+ *  int * b = malloc(sizeof(*b));
+ *  (ctk_free)((void*)&b); // Ok - b == NULL
+ * }
  */
 void ctk_free(void ** ptr);
+/**
+ * Macro easing the use of `ctk_free()` by removing the need to cast \p{ptr} to
+ * `(void*)`.
+ *
+ * @param[in,out] ptr : Address of the pointer to the memory to deallocate.
+ *
+ * @return Nothing.
+ *
+ * @example{
+ *  ctk_free(NULL); // Ok
+ *  int * a = NULL;
+ *  ctk_free(&a);   // Ok - a == NULL
+ *  int * b = malloc(sizeof(*b));
+ *  ctk_free(&b);   // Ok - b == NULL
+ * }
+ */
+#define ctk_free(ptr) \
+    (ctk_free)((void*)(ptr))
 /*==============================================================================
     GUARD
 ==============================================================================*/
