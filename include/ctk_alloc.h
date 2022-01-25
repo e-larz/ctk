@@ -88,6 +88,12 @@ void * ctk_calloc(size_t num, size_t size);
  * Wrapper around `realloc()` returning `NULL` if \p{size} is `0` and setting
  * \p{ptr} to `NULL` if the reallocation succeeded.
  *
+ * - Since \p{ptr} is a double pointer, a simple pointer parameter must be
+ *   passed as `(void*)&ptr`. Use #ctk_realloc() macro to to pass parameter as
+ *   `&ptr`.
+ * - #ctk_realloc() macro having the same name, this function must be enclosed
+ *   with parenthesis to call it(i.e, `(ctk_realloc)((void*)&ptr)`).
+ *
  * @param[in,out] ptr  : Address of the pointer to the memory to reallocate.
  * @param[in]     size : Number of bytes to allocate.
  *
@@ -101,14 +107,40 @@ void * ctk_calloc(size_t num, size_t size);
  * @example{
  *  const size_t size = sizeof(*ptr);
  *  int * ptr = malloc(size);
- *  int * a = ctk_realloc((void*)&ptr, size * 2); // Ok: ptr == NULL
- *  a = ctk_realloc((void*)&a, size * 3); // Ok
- *  int * b = ctk_realloc((void*)&a, 0);  // Error: b == NULL, a is unchanged
- *  int * c = ctk_realloc(NULL, 0);       // Error: c == NULL
- *  int * d = ctk_realloc(NULL, size);    // Ok: same as malloc(size)
+ *  int * a = (ctk_realloc)((void*)&ptr, size * 2); // Ok: ptr == NULL
+ *  a = (ctk_realloc)((void*)&a, size * 3); // Ok
+ *  int * b = (ctk_realloc)((void*)&a, 0);  // Error: b == NULL, a is unchanged
+ *  int * c = (ctk_realloc)(NULL, 0);       // Error: c == NULL
+ *  int * d = (ctk_realloc)(NULL, size);    // Ok: same as malloc(size)
  * }
  */
 void * ctk_realloc(void ** ptr, size_t size);
+/**
+ * Macro easing the use of `ctk_realloc()` by removing the need to cast \p{ptr}
+ * to `(void*)`.
+ *
+ * @param[in,out] ptr  : Address of the pointer to the memory to reallocate.
+ * @param[in]     size : Number of bytes to allocate.
+ *
+ * @return
+ * - @success: A pointer to the reallocated memory.
+ * - @failure: `NULL`.
+ *
+ * @warning
+ * - \p{size} must be > `0`.
+ *
+ * @example{
+ *  const size_t size = sizeof(*ptr);
+ *  int * ptr = malloc(size);
+ *  int * a = ctk_realloc(&ptr, size * 2); // Ok: ptr == NULL
+ *  a = ctk_realloc(&a, size * 3);         // Ok
+ *  int * b = ctk_realloc(&a, 0);          // Error: b == NULL, a is unchanged
+ *  int * c = ctk_realloc(NULL, 0);        // Error: c == NULL
+ *  int * d = ctk_realloc(NULL, size);     // Ok: same as malloc(size)
+ * }
+ */
+#define ctk_realloc(ptr, size) \
+    (ctk_realloc)((void*)(ptr), (size))
 /*------------------------------------------------------------------------------
     ctk_free()
 ------------------------------------------------------------------------------*/
