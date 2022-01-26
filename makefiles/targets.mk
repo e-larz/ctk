@@ -21,6 +21,30 @@ all_dr::
 $(OBJ_PATH)/%.o: %.c $(OBJ_DEPS)
 	$(COMPILE)
 ################################################################################
+# PROGRAM PROJECT
+#
+# Project producing a single executable.
+################################################################################
+ifeq ($(PROJECT_TYPE),program)
+# Top target to build the program
+.PHONY: program
+program:: $(PROGRAM_TARGET)
+
+# *.o => executable
+$(PROGRAM_TARGET): $(OBJ_FILES) | $(BUILD_PATH)
+	$(LINK_PROGRAM)
+
+# Run program(where it has been built)
+RUN_CMD += $(PROGRAM_PATH)
+.PHONY: run
+run:: $(RUN_DEPS)
+	$(RUN_CMD)
+
+# Install
+.PHONY: install_program
+install_program:: $(INSTALL_PROGRAM_DEPS)
+endif
+################################################################################
 # HEADER PROJECT
 #
 # Project which only provide headers (*.h) and thus does not need to compile
@@ -35,13 +59,30 @@ COV_CMD :=
 header::;
 endif
 ################################################################################
+# EXTERNAL INSTALL
+################################################################################
+# Install everything located in external/include
+ifneq ($(wildcard $(EXT_INC_PATH)),)
+INSTALL_HEADER_DEPS += install_ext_header
+.PHONY: install_ext_header
+install_ext_header:: | $(HEADER_INSTALL_PATH)
+	cp -r $(EXT_INC_PATH)/* $(HEADER_INSTALL_PATH)
+endif
+# Install everything located in external/lib
+ifneq ($(wildcard $(EXT_LIB_PATH)),)
+INSTALL_LIB_DEPS += install_ext_lib
+.PHONY: install_ext_lib
+install_ext_lib:: | $(LIB_INSTALL_PATH)
+	cp -ar $(EXT_LIB_PATH)/* $(LIB_INSTALL_PATH)
+endif
+################################################################################
 # HEADER/LIBRARY PROJECT COMMON
 ################################################################################
 ifneq ($(filter $(PROJECT_TYPE),header shared static),)
 # Install header files(*.h)
-INSTALL_DEPS := install_header
+INSTALL_DEPS += install_header
 .PHONY: install_header
-install_header:: $(PKG_HEADER_TARGET) | $(HEADER_INSTALL_PATH) $(PKG_PC_INSTALL_PATH)
+install_header:: $(PKG_HEADER_TARGET) $(INSTALL_HEADER_DEPS) | $(HEADER_INSTALL_PATH) $(PKG_PC_INSTALL_PATH)
 	cp -r $(INC_PATH)/. $(HEADER_INSTALL_PATH)
 	mv $(PKG_PC_NAME) $(PKG_PC_INSTALL_PATH)
 
@@ -61,11 +102,10 @@ endif
 ################################################################################
 ifneq ($(filter $(PROJECT_TYPE),shared static),)
 # Install library files(*.a/*.so)
-INSTALL_DEPS := install_lib
+INSTALL_DEPS += install_lib
 .PHONY: install_lib
-install_lib:: install_header | $(LIB_INSTALL_PATH)
+install_lib:: $(INSTALL_LIB_DEPS) | $(LIB_INSTALL_PATH)
 	cp -ar $(BUILD_PATH)/* $(LIB_INSTALL_PATH)
-	find $(EXT_LIB_PATH) -type f,l -exec cp -at $(LIB_INSTALL_PATH) {} +
 
 # Build shared library(*.so)
 .PHONY: shared
@@ -86,28 +126,10 @@ $(LIB_STATIC_TARGET): $(OBJ_FILES) | $(BUILD_PATH)
 	$(ARCHIVE)
 
 # Uninstall library files(*.a/*.so.*/*.h/*.pc)
-UNINSTALL_DEPS := uninstall_lib
+UNINSTALL_DEPS += uninstall_lib
 .PHONY: uninstall_lib
 uninstall_lib:: uninstall_header
 	rm -r $(LIB_INSTALL_PATH)
-endif
-################################################################################
-# PROGRAM PROJECT
-################################################################################
-# Build program
-ifeq ($(PROJECT_TYPE),program)
-.PHONY: program
-program:: $(PROGRAM_TARGET)
-
-# *.o => executable
-$(PROGRAM_TARGET): $(OBJ_FILES) | $(BUILD_PATH)
-	$(LINK_PROGRAM)
-
-# Run program
-RUN_CMD = $(PROGRAM_PATH)
-.PHONY: run
-run:: $(RUN_DEPS)
-	$(RUN_CMD)
 endif
 ################################################################################
 # TEST
@@ -174,15 +196,18 @@ clean:: $(CLEAN_DEPS)
 
 # Remove existing build files and build again
 .PHONY: rebuild
-rebuild:: clean all
+rebuild:: clean all $(REBUILD_DEPS)
+	$(REBUILD_CMD)
 
 # Install everything
 .PHONY: install
 install:: $(INSTALL_DEPS)
+	$(INSTALL_CMD)
 
 # Uninstall everything
 .PHONY: uninstall
 uninstall:: $(UNINSTALL_DEPS)
+	$(UNINSTALL_CMD)
 
 # Only output the result of the preprocessor pass.
 .PHONY: pre_pass

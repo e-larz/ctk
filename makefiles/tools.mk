@@ -156,17 +156,24 @@ PKG_PC_NAME = $(PROJECT).pc
 # Installation path for the pkg-config file(*.pc)                            [X]
 PKG_PC_INSTALL_PATH = $(libdir)/pkgconfig
 # Target for the pkg-config file header template                             [X]
-PKG_HEADER_TARGET = $(MAKEFILE_PATH)/header.pc.in
+PKG_HEADER_TARGET = $(MAKEFILE_PATH)/project.pc.in
 # Create a pkg-config file(*.pc) by taking a template file (*pc.in) and replace
 # all the `@variable@` with an actual value.
 # `|` is used instead of `/` otherwise sed will fail when variables contain a
 # `/` which is almost always the case with paths(=> 's/@prefix@//usr/local/').
 PKG_PC_IN = sed \
--e 's|@prefix@|$(prefix)|' \
--e 's|@exec_prefix@|$(exec_prefix)|' \
--e 's|@includedir@|$(includedir)|' \
--e 's|@libdir@|$(libdir)|' \
--e 's|@PROJECT@|$(PROJECT)|' \
+-e 's|@PREFIX@|$(prefix)|' \
+-e 's|@EXEC_PREFIX@|$(exec_prefix)|' \
+-e 's|@INCLUDEDIR@|$(includedir)|' \
+-e 's|@LIBDIR@|$(libdir)|' \
+-e 's|@NAME@|$(PROJECT)|' \
 -e 's|@DESCRIPTION@|$(DESCRIPTION)|' \
+-e 's|@URL@||' \
 -e 's|@VERSION@|$(VERSION)|' \
+-e 's|@REQUIRES@||' \
+-e 's|@REQUIRES_PRIVATE@||' \
+-e 's|@CONFLICTS@||' \
+-e 's|@LIBS@||' \
+-e 's|@LIBS_PRIVATE@||' \
+-e 's|@CFLAGS@||' \
 $@ > $(PKG_PC_NAME)
