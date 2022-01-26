@@ -1,0 +1,52 @@
+stages:
+  - build
+  - test
+  - deploy
+
+.template-test-debian-gcc:
+  stage: test
+  image: $CI_GROUP_REGISTRY/$CI_JOB_NAME:latest
+  script:
+    - make check
+
+build-debian-gcc:
+  stage: build
+  image: $IMAGE
+  script:
+    - echo ${CI_JOB_NAME}
+    - make all CC=gcc
+  artifacts:
+    paths:
+      - build/
+      - test/build/
+  parallel:
+    matrix:
+      - IMAGE: ['$CI_IMAGE_DEBIAN_GCC-7:latest', '$CI_IMAGE_DEBIAN_GCC-8:latest', '$CI_IMAGE_DEBIAN_GCC-9:latest', '$CI_IMAGE_DEBIAN_GCC-10:latest']
+
+test-debian-gcc-7:
+  extends: .template-test-debian-gcc
+  needs: ["build-debian-gcc: [$CI_IMAGE_DEBIAN_GCC-7:latest]"]
+
+test-debian-gcc-8:
+  extends: .template-test-debian-gcc
+  needs: ["build-debian-gcc: [$CI_IMAGE_DEBIAN_GCC-8:latest]"]
+
+test-debian-gcc-9:
+  extends: .template-test-debian-gcc
+  needs: ["build-debian-gcc: [$CI_IMAGE_DEBIAN_GCC-9:latest]"]
+
+test-debian-gcc-10:
+  extends: .template-test-debian-gcc
+  needs: ["build-debian-gcc: [$CI_IMAGE_DEBIAN_GCC-10:latest]"]
+
+pages:
+  stage: deploy
+  image: $CI_GROUP_REGISTRY/doc:latest
+  script:
+    - make doc
+    - mv doc/doxygen/html public
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
