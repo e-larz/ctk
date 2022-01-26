@@ -36,6 +36,8 @@
  * Size of a buffer big enough to contain an error string returned by
  * ctk_strerror_r().
  *
+ * - There doesn't seem to be an easy way to ask for the length of a `errno`
+ *   message(appart from `strerrorlen_s()` but nobody implements Annex K).
  * - The longest error message on Linux is 49 characters(not including the null
  *   terminator) for the English language but other languages could take more
  *   space, especially those using more than one byte for a letter.

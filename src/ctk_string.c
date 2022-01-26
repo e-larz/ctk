@@ -15,6 +15,10 @@
  * OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  * }
+ *
+ * @todo
+ * - Check the portability of `errno` values not defined in the C standard
+ *   (i.e, POSIX, Windows, OS X, etc).
  */
 /*==============================================================================
     INCLUDE
@@ -24,9 +28,11 @@
 // Own header
 #include "ctk_string.h"
 // C Standard Library
-#include <assert.h>
+#include <errno.h>
 #include <stdio.h>  // fputs()
 #include <string.h> // size_t, POSIX strerror_r()
+// Internal
+#include "ctk_error.h"
 /*==============================================================================
     PUBLIC FUNCTION
 ==============================================================================*/
@@ -35,8 +41,8 @@
 ------------------------------------------------------------------------------*/
 int ctk_strerror_r(const int errnum, char * const result, const size_t length)
 {
-    assert(result != NULL);
-    assert(length > 0);
+    // POSIX strerror_r() will segfault in this case
+    CTK_ERROR_RET_VAL_IF(result == NULL, EINVAL);
 
 // There is a GNU-specific strerror_r() with a different prototype and behavior
 // that will be used if _GNU_SOURCE is defined.
