@@ -86,12 +86,12 @@ struct tm * ctk_localtime_r(
  *   ss   : Second
  *   +    : '+' or '-' character
  *   hhmm : UTC offset
- *   @endv
+ *   @ev
  * - Example:
  *   @v
  *   2021-03-15T19:37:59+0530
  *   2021-03-15T19:37:59-0530
- *   @endv
+ *   @ev
  *
  * @param[in]  timer  : Time in seconds since Epoch.
  * @param[out] result : Buffer where the string will be stored.
