@@ -13,6 +13,10 @@ which says in its summary:
 
 ## [Unreleased]
 
+## [0.1.0]
+
+(2022-26-01)
+
 ### Added
 
 - `ctk_alloc`: Provide wrappers around standard allocation functions.
