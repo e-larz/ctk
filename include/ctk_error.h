@@ -25,7 +25,7 @@
     INCLUDE
 ==============================================================================*/
 // C Standard Library
-#include <stdio.h> // fprintf()
+#include <stdio.h> // EOF, NULL, fprintf()
 /*==============================================================================
     MACRO
 ==============================================================================*/
@@ -112,6 +112,21 @@
  */
 #define CTK_ERROR_RET_0_IF(cond)                                               \
     CTK_ERROR_RET_VAL_IF(cond, 0)
+/*------------------------------------------------------------------------------
+    CTK_ERROR_RET_EOF_IF()
+------------------------------------------------------------------------------*/
+/**
+ * Print an error message to `stderr` and make the calling fuction return `EOF`
+ * if \p{cond} is true.
+ *
+ * @param[in] cond : Condition to be evaluated.
+ *
+ * @example{
+ *   CTK_ERROR_RET_EOF_IF(buf == NULL);
+ * }
+ */
+#define CTK_ERROR_RET_EOF_IF(cond)                                             \
+    CTK_ERROR_RET_VAL_IF(cond, EOF)
 /*==============================================================================
     GUARD
 ==============================================================================*/

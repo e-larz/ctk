@@ -13,27 +13,32 @@ which says in its summary:
 
 ## [Unreleased]
 
+### Added
+
+- `CTK_ERROR_RET_EOF_IF()`: Make a function return `EOF` if the given condition
+  is true.
+
 ## [0.1.0]
 
 (2022-26-01)
 
 ### Added
 
-- `ctk_alloc`: Provide wrappers around standard allocation functions.
+- `ctk_alloc.h`: Provide wrappers around standard allocation functions.
   - `ctk_malloc()`: Return an error on size of `0`.
   - `ctk_calloc()`: Return an error on size of `0`.
   - `ctk_realloc()`: Return an error on size of `0`.
   - `ctk_free()`: Set pointer to `NULL` after dealocation.
-- `ctk_error`: Provide error related functions.
+- `ctk_error.h`: Provide error related functions.
   - `CTK_ERROR_RET_VAL_IF_MSG()`: Make a function return a value if a condition is true.
   - `CTK_ERROR_RET_VAL_IF()`: Same as `CTK_ERROR_RET_VAL_IF_MSG()`.
   - `CTK_ERROR_RET_IF()`: Same as `CTK_ERROR_RET_VAL_IF()` but for functions returning `void`.
   - `CTK_ERROR_RET_NULL_IF()`: Same as `CTK_ERROR_RET_VAL_IF()` but return `NULL`.
   - `CTK_ERROR_RET_0_IF()`: Same as `CTK_ERROR_RET_VAL_IF()` but return `0`.
-- `ctk_platform`: Detect various platforms through macros.
+- `ctk_platform.h`: Detect various platforms through macros.
   - `CTK_POSIX`: Defined to `1` on Posix platforms.
-- `ctk_string`: Provide string related functions.
+- `ctk_string.h`: Provide string related functions.
   - `ctk_strerror_r()`: Reentrant version of `strerror()`
-- `ctk_time`: Provide time related functions.
-  - `ctk_localtime_r()`: Reentrant version of `strerror()`
+- `ctk_time.h`: Provide time related functions.
+  - `ctk_localtime_r()`: Reentrant version of `localtime()`
   - `ctk_iso8601_time()`: Convert time since Epoch to a ISO 8601 formatted string.

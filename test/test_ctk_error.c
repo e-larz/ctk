@@ -29,7 +29,7 @@
 #include "ctk_error.h"
 // C Standard Library
 #include <assert.h>
-#include <stdio.h> // printf()
+#include <stdio.h> // EOF, NULL, printf()
 /*==============================================================================
     FUNCTION DECLARATION
 ==============================================================================*/
@@ -38,6 +38,7 @@ static void TEST_CTK_ERROR_RET_VAL_IF(void);
 //static void TEST_CTK_ERROR_RET_IF(void);
 static void TEST_CTK_ERROR_RET_NULL_IF(void);
 static void TEST_CTK_ERROR_RET_0_IF(void);
+static void TEST_CTK_ERROR_RET_EOF_IF(void);
 /*==============================================================================
     FUNCTION DEFINITION
 ==============================================================================*/
@@ -52,6 +53,7 @@ void TEST_ctk_error(void)
     //TEST_CTK_ERROR_RET_IF();
     TEST_CTK_ERROR_RET_NULL_IF();
     TEST_CTK_ERROR_RET_0_IF();
+    TEST_CTK_ERROR_RET_EOF_IF();
 }
 /*------------------------------------------------------------------------------
     TEST_CTK_ERROR_RET_VAL_IF_MSG()
@@ -121,5 +123,19 @@ static void TEST_CTK_ERROR_RET_0_IF(void)
 {
     assert(test_ctk_error_ret_0_if(0) == 0);
     assert(test_ctk_error_ret_0_if(1) != 0);
+    printf("\t%s: OK\n", __func__);
+}
+/*------------------------------------------------------------------------------
+    TEST_CTK_ERROR_RET_EOF_IF()
+------------------------------------------------------------------------------*/
+static int test_ctk_error_ret_eof_if(int x)
+{
+    CTK_ERROR_RET_EOF_IF(x == 0);
+    return 1;
+}
+static void TEST_CTK_ERROR_RET_EOF_IF(void)
+{
+    assert(test_ctk_error_ret_eof_if(0) == EOF);
+    assert(test_ctk_error_ret_eof_if(1) != EOF);
     printf("\t%s: OK\n", __func__);
 }
