@@ -29,7 +29,7 @@
  * they are called with a size of `0`.
  *
  * @see
- * @C17{7.22.3}
+ * @C17{7,22,3}
  *
  * @todo
  * - Add wrapper around `aligned_alloc()`
@@ -65,6 +65,10 @@
  * @example{
  *  int * a = ctk_malloc(sizeof(*a)); // Ok
  *  int * b = ctk_malloc(0);          // Erro: b == NULL
+ * }
+ *
+ * @see
+ * @C17{7,22,3,4}
  */
 void * ctk_malloc(size_t size);
 /*------------------------------------------------------------------------------
@@ -91,6 +95,9 @@ void * ctk_malloc(size_t size);
  *  int * c = ctk_calloc(sizeof(*c), 0); // Error: c == NULL
  *  int * d = ctk_calloc(0, 0);          // Error: d == NULL
  * }
+ *
+ * @see
+ * @C17{7,22,3,2}
  */
 void * ctk_calloc(size_t num, size_t size);
 /*------------------------------------------------------------------------------
@@ -125,6 +132,9 @@ void * ctk_calloc(size_t num, size_t size);
  *  int * c = (ctk_realloc)(NULL, 0);       // Error: c == NULL
  *  int * d = (ctk_realloc)(NULL, size);    // Ok: same as malloc(size)
  * }
+ *
+ * @see
+ * @C17{7,22,3,5}
  */
 void * ctk_realloc(void ** ptr, size_t size);
 /**
@@ -150,6 +160,9 @@ void * ctk_realloc(void ** ptr, size_t size);
  *  int * c = ctk_realloc(NULL, 0);        // Error: c == NULL
  *  int * d = ctk_realloc(NULL, size);     // Ok: same as malloc(size)
  * }
+ *
+ * @see
+ * @C17{7,22,3,5}
  */
 #define ctk_realloc(ptr, size) \
     (ctk_realloc)((void*)(ptr), (size))
@@ -178,6 +191,9 @@ void * ctk_realloc(void ** ptr, size_t size);
  *  int * b = malloc(sizeof(*b));
  *  (ctk_free)((void*)&b); // Ok: b == NULL
  * }
+ *
+ * @see
+ * @C17{7,22,3,3}
  */
 void ctk_free(void ** ptr);
 /**
@@ -195,6 +211,9 @@ void ctk_free(void ** ptr);
  *  int * b = malloc(sizeof(*b));
  *  ctk_free(&b);   // Ok: b == NULL
  * }
+ *
+ * @see
+ * @C17{7,22,3,3}
  */
 #define ctk_free(ptr) \
     (ctk_free)((void*)(ptr))
