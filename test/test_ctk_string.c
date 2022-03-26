@@ -26,9 +26,11 @@
 #include "ctk_string.h"
 // C Standard Library
 #include <assert.h>
+#include <ctype.h>  // tolower(), toupper()
 #include <errno.h>
-#include <stdio.h>  // printf()
-#include <string.h> // strerror(), strcmp()
+#include <limits.h> // UCHAR_MAX
+#include <stdio.h>  // EOF, printf()
+#include <string.h> // strcmp(), strerror()
 /*==============================================================================
     MACRO
 ==============================================================================*/
@@ -36,6 +38,8 @@
     FUNCTION DECLARATION
 ==============================================================================*/
 static void TEST_ctk_strerror_r(void);
+static void TEST_ctk_tolower(void);
+static void TEST_ctk_toupper(void);
 /*==============================================================================
     FUNCTION DEFINITION
 ==============================================================================*/
@@ -46,6 +50,8 @@ void TEST_ctk_string(void)
 {
     printf("%s:\n", __func__);
     TEST_ctk_strerror_r();
+    TEST_ctk_tolower();
+    TEST_ctk_toupper();
 }
 /*------------------------------------------------------------------------------
     TEST_ctk_strerror_r()
@@ -65,5 +71,55 @@ static void TEST_ctk_strerror_r(void)
     assert(strcmp(error, strerror(-1)) == 0);
     assert(ctk_strerror_r(0, NULL, CTK_STRING_ERR_LENGTH) == EINVAL);
     assert(ctk_strerror_r(0, error, 0) == ERANGE);
+    printf("\t%s: OK\n", __func__);
+}
+/*------------------------------------------------------------------------------
+    TEST_ctk_tolower()
+------------------------------------------------------------------------------*/
+static void TEST_ctk_tolower(void)
+{
+    // Find a negative value different from EOF.
+    int c = 0;
+    for(int i = -1; i > INT_MIN; i--) {
+        if(i != EOF) {
+            c = i;
+            break;
+        }
+    }
+    // Invalid range: c < 0 && c != EOF
+    assert(ctk_tolower(c) == c);
+    // Invalid range: c > UCHAR_MAX
+    assert(ctk_tolower(UCHAR_MAX+1) == UCHAR_MAX+1);
+    // Valid range: c >= 0 && c <= UCHAR_MAX
+    for(int i = 0; i < UCHAR_MAX; i++) {
+        assert(ctk_tolower(i) == tolower(i));
+    }
+    // Valid value: EOF
+    assert(ctk_tolower(EOF) == tolower(EOF));
+    printf("\t%s: OK\n", __func__);
+}
+/*------------------------------------------------------------------------------
+    TEST_ctk_toupper()
+------------------------------------------------------------------------------*/
+static void TEST_ctk_toupper(void)
+{
+    // Find a negative value different from EOF.
+    int c = 0;
+    for(int i = -1; i > INT_MIN; i--) {
+        if(i != EOF) {
+            c = i;
+            break;
+        }
+    }
+    // Invalid range: c < 0 && c != EOF
+    assert(ctk_toupper(c) == c);
+    // Invalid range: c > UCHAR_MAX
+    assert(ctk_toupper(UCHAR_MAX+1) == UCHAR_MAX+1);
+    // Valid range: c >= 0 && c <= UCHAR_MAX
+    for(int i = 0; i < UCHAR_MAX; i++) {
+        assert(ctk_toupper(i) == toupper(i));
+    }
+    // Valid value: EOF
+    assert(ctk_toupper(EOF) == toupper(EOF));
     printf("\t%s: OK\n", __func__);
 }

@@ -15,8 +15,12 @@ which says in its summary:
 
 ### Added
 
-- `CTK_ERROR_RET_EOF_IF()`: Make a function return `EOF` if the given condition
-  is true.
+- `ctk_error.h`
+  - `CTK_ERROR_RET_EOF_IF()`: Make a function return `EOF` if the given
+    condition is true.
+- `ctk_string.h`
+  - `ctk_tolower()`: Safe wrapper around `tolower()`
+  - `ctk_toupper()`: Safe wrapper around `toupper()`
 
 ## [0.1.0]
 

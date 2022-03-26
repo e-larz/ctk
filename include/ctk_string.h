@@ -80,6 +80,48 @@
  * - https://pubs.opengroup.org/onlinepubs/9699919799/functions/strerror.html
  */
 int ctk_strerror_r(int errnum, char * result, size_t length);
+/*------------------------------------------------------------------------------
+    ctk_tolower()
+------------------------------------------------------------------------------*/
+/**
+ * Converts an uppercase character to a lowercase one.
+ *
+ * Works as `tolower()` except for the following points:
+ * - Returns \p{c} if \p{c} is neither representable as an `unsigned char` nor
+ *   has the value of `EOF`(instead of being an undefined behavior).
+ *
+ * @param[in] c : The character to convert.
+ *
+ * @return
+ * - @success: The lowercase version of \p{c}.
+ * - @failure: \p{c}.
+ *
+ * @see
+ * - @C17{7,4,2,1}
+ * - https://en.cppreference.com/w/c/string/byte/tolower
+ */
+int ctk_tolower(int c);
+/*------------------------------------------------------------------------------
+    ctk_toupper()
+------------------------------------------------------------------------------*/
+/**
+ * Converts a lowercase character to an uppercase one.
+ *
+ * Works as `toupper()` except for the following points:
+ * - Returns \p{c} if \p{c} is neither representable as an `unsigned char` nor
+ *   has the value of `EOF`(instead of being an undefined behavior).
+ *
+ * @param[in] c : The character to convert.
+ *
+ * @return
+ * - @success: The uppercase version of \p{c}.
+ * - @failure: \p{c}.
+ *
+ * @see
+ * - @C17{7,4,2,2}
+ * - https://en.cppreference.com/w/c/string/byte/toupper
+ */
+int ctk_toupper(int c);
 /*==============================================================================
     GUARD
 ==============================================================================*/

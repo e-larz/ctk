@@ -28,8 +28,10 @@
 // Own header
 #include "ctk_string.h"
 // C Standard Library
+#include <ctype.h>  // tolower(), toupper()
 #include <errno.h>
-#include <stdio.h>  // fputs()
+#include <limits.h> // UCHAR_MAX
+#include <stdio.h>  // EOF, fputs()
 #include <string.h> // size_t, POSIX strerror_r()
 // Internal
 #include "ctk_error.h"
@@ -57,4 +59,24 @@ int ctk_strerror_r(const int errnum, char * const result, const size_t length)
 #else
     return CTK_ERR_NO_SUPPORT;
 #endif
+}
+/*------------------------------------------------------------------------------
+    ctk_tolower()
+------------------------------------------------------------------------------*/
+int ctk_tolower(int c)
+{
+    if((c < 0 || c > UCHAR_MAX) && c != EOF) {
+        return c;
+    }
+    return tolower(c);
+}
+/*------------------------------------------------------------------------------
+    ctk_toupper()
+------------------------------------------------------------------------------*/
+int ctk_toupper(int c)
+{
+    if((c < 0 || c > UCHAR_MAX) && c != EOF) {
+        return c;
+    }
+    return toupper(c);
 }
