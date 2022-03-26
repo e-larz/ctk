@@ -19,6 +19,8 @@ which says in its summary:
   - `CTK_ERROR_RET_EOF_IF()`: Make a function return `EOF` if the given
     condition is true.
 - `ctk_string.h`
+  - `ctk_strtolower()`: Converts in-place a null-terminated string to lower case.
+  - `ctk_strtoupper()`: Converts in-place a null-terminated string to upper case.
   - `ctk_tolower()`: Safe wrapper around `tolower()`
   - `ctk_toupper()`: Safe wrapper around `toupper()`
 

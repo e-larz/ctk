@@ -61,6 +61,32 @@ int ctk_strerror_r(const int errnum, char * const result, const size_t length)
 #endif
 }
 /*------------------------------------------------------------------------------
+    ctk_strtolower()
+------------------------------------------------------------------------------*/
+char * ctk_strtolower(char * str)
+{
+    CTK_ERROR_RET_NULL_IF(str == NULL);
+    char * const start = str;
+    while(*str) {
+        const int c = (unsigned char)*str;
+        *str++ = (char)ctk_tolower(c);
+    }
+    return start;
+}
+/*------------------------------------------------------------------------------
+    ctk_strtoupper()
+------------------------------------------------------------------------------*/
+char * ctk_strtoupper(char * str)
+{
+    CTK_ERROR_RET_NULL_IF(str == NULL);
+    char * const start = str;
+    while(*str) {
+        const int c = (unsigned char)*str;
+        *str++ = (char)ctk_toupper(c);
+    }
+    return start;
+}
+/*------------------------------------------------------------------------------
     ctk_tolower()
 ------------------------------------------------------------------------------*/
 int ctk_tolower(int c)

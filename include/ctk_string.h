@@ -81,6 +81,34 @@
  */
 int ctk_strerror_r(int errnum, char * result, size_t length);
 /*------------------------------------------------------------------------------
+    ctk_strtolower()
+------------------------------------------------------------------------------*/
+/**
+ * Converts in-place a null-terminated string to lower case.
+ *
+ * @param[in,out] str : The string to convert.
+ *
+ * @return \p{str}.
+ *
+ * @warning
+ * - \p{str} must be a pointer to a null-terminated string.
+ */
+char * ctk_strtolower(char * str);
+/*------------------------------------------------------------------------------
+    ctk_strtoupper()
+------------------------------------------------------------------------------*/
+/**
+ * Converts in-place a null-terminated string to upper case.
+ *
+ * @param[in,out] str : The string to convert.
+ *
+ * @return \p{str}.
+ *
+ * @warning
+ * - \p{str} must be a pointer to a null-terminated string.
+ */
+char * ctk_strtoupper(char * str);
+/*------------------------------------------------------------------------------
     ctk_tolower()
 ------------------------------------------------------------------------------*/
 /**

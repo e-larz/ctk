@@ -38,6 +38,8 @@
     FUNCTION DECLARATION
 ==============================================================================*/
 static void TEST_ctk_strerror_r(void);
+static void TEST_ctk_strtolower(void);
+static void TEST_ctk_strtoupper(void);
 static void TEST_ctk_tolower(void);
 static void TEST_ctk_toupper(void);
 /*==============================================================================
@@ -50,6 +52,8 @@ void TEST_ctk_string(void)
 {
     printf("%s:\n", __func__);
     TEST_ctk_strerror_r();
+    TEST_ctk_strtolower();
+    TEST_ctk_strtoupper();
     TEST_ctk_tolower();
     TEST_ctk_toupper();
 }
@@ -71,6 +75,52 @@ static void TEST_ctk_strerror_r(void)
     assert(strcmp(error, strerror(-1)) == 0);
     assert(ctk_strerror_r(0, NULL, CTK_STRING_ERR_LENGTH) == EINVAL);
     assert(ctk_strerror_r(0, error, 0) == ERANGE);
+    printf("\t%s: OK\n", __func__);
+}
+/*------------------------------------------------------------------------------
+    TEST_ctk_strtolower()
+------------------------------------------------------------------------------*/
+static void TEST_ctk_strtolower(void)
+{
+    // NULL pointer
+    assert(ctk_strtolower(NULL) == NULL);
+    // Empty string
+    char str_empty_actual[] = "";
+    const char * str_empty_expected = "";
+    assert(strcmp(ctk_strtolower(str_empty_actual), str_empty_expected) == 0);
+    // Full ASCII string
+    char str_full_actual[256] = {0};
+    char str_full_expected[256] = {0};
+    for(int i = 0; i < 255; i++) {
+        str_full_actual[i] = (char)(i+1);
+        str_full_expected[i] = (char)tolower(i+1);
+    }
+    str_full_actual[255] = '\0';
+    str_full_expected[255] = '\0';
+    assert(strcmp(ctk_strtolower(str_full_actual), str_full_expected) == 0);
+    printf("\t%s: OK\n", __func__);
+}
+/*------------------------------------------------------------------------------
+    TEST_ctk_strtoupper()
+------------------------------------------------------------------------------*/
+static void TEST_ctk_strtoupper(void)
+{
+    // NULL pointer
+    assert(ctk_strtoupper(NULL) == NULL);
+    // Empty string
+    char str_empty_actual[] = "";
+    const char * str_empty_expected = "";
+    assert(strcmp(ctk_strtoupper(str_empty_actual), str_empty_expected) == 0);
+    // Full ASCII string
+    char str_full_actual[256] = {0};
+    char str_full_expected[256] = {0};
+    for(int i = 0; i < 255; i++) {
+        str_full_actual[i] = (char)(i+1);
+        str_full_expected[i] = (char)toupper(i+1);
+    }
+    str_full_actual[255] = '\0';
+    str_full_expected[255] = '\0';
+    assert(strcmp(ctk_strtoupper(str_full_actual), str_full_expected) == 0);
     printf("\t%s: OK\n", __func__);
 }
 /*------------------------------------------------------------------------------
