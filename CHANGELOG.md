@@ -21,8 +21,11 @@ which says in its summary:
 - `ctk_string.h`
   - `ctk_strtolower()`: Converts in-place a null-terminated string to lower case.
   - `ctk_strtoupper()`: Converts in-place a null-terminated string to upper case.
-  - `ctk_tolower()`: Safe wrapper around `tolower()`
-  - `ctk_toupper()`: Safe wrapper around `toupper()`
+  - `ctk_strtrim()`: Trims in-place a null-terminated string.
+  - `ctk_strtriml()`: Trims in-place a null-terminated string from the left.
+  - `ctk_strtrimr()`: Trims in-place a null-terminated string from the right.
+  - `ctk_tolower()`: Safe wrapper around `tolower()`.
+  - `ctk_toupper()`: Safe wrapper around `toupper()`.
 
 ## [0.1.0]
 
@@ -44,7 +47,7 @@ which says in its summary:
 - `ctk_platform.h`: Detect various platforms through macros.
   - `CTK_POSIX`: Defined to `1` on Posix platforms.
 - `ctk_string.h`: Provide string related functions.
-  - `ctk_strerror_r()`: Reentrant version of `strerror()`
+  - `ctk_strerror_r()`: Reentrant version of `strerror()`.
 - `ctk_time.h`: Provide time related functions.
-  - `ctk_localtime_r()`: Reentrant version of `localtime()`
+  - `ctk_localtime_r()`: Reentrant version of `localtime()`.
   - `ctk_iso8601_time()`: Convert time since Epoch to a ISO 8601 formatted string.

@@ -109,6 +109,54 @@ char * ctk_strtolower(char * str);
  */
 char * ctk_strtoupper(char * str);
 /*------------------------------------------------------------------------------
+    ctk_strtrim()
+------------------------------------------------------------------------------*/
+/**
+ * Trims in-place a null-terminated string.
+ *
+ * @param[in] str : The string to trim.
+ *
+ * @return
+ * - @success: A pointer to the beginning of the string.
+ * - @failure: `NULL`.
+ *
+ * @warning
+ * - \b [UB] \p{str} must be a pointer to a null-terminated string.
+ */
+char * ctk_strtrim(char * str);
+/*------------------------------------------------------------------------------
+    ctk_strtriml()
+------------------------------------------------------------------------------*/
+/**
+ * Trims in-place a null-terminated string from the left.
+ *
+ * @param[in] str : The string to trim.
+ *
+ * @return
+ * - @success: A pointer to the beginning of the string.
+ * - @failure: `NULL`.
+ *
+ * @warning
+ * - \b [UB] \p{str} must be a pointer to a null-terminated string.
+ */
+char * ctk_strtriml(char * str);
+/*------------------------------------------------------------------------------
+    ctk_strtrimr()
+------------------------------------------------------------------------------*/
+/**
+ * Trims in-place a null-terminated string from the right.
+ *
+ * @param[in] str : The string to trim.
+ *
+ * @return
+ * - @success: A pointer to the beginning of the string.
+ * - @failure: `NULL`.
+ *
+ * @warning
+ * - \b [UB] \p{str} must be a pointer to a null-terminated string.
+ */
+char * ctk_strtrimr(char * str);
+/*------------------------------------------------------------------------------
     ctk_tolower()
 ------------------------------------------------------------------------------*/
 /**

@@ -40,6 +40,9 @@
 static void TEST_ctk_strerror_r(void);
 static void TEST_ctk_strtolower(void);
 static void TEST_ctk_strtoupper(void);
+static void TEST_ctk_strtrim(void);
+static void TEST_ctk_strtriml(void);
+static void TEST_ctk_strtrimr(void);
 static void TEST_ctk_tolower(void);
 static void TEST_ctk_toupper(void);
 /*==============================================================================
@@ -54,6 +57,9 @@ void TEST_ctk_string(void)
     TEST_ctk_strerror_r();
     TEST_ctk_strtolower();
     TEST_ctk_strtoupper();
+    TEST_ctk_strtrim();
+    TEST_ctk_strtriml();
+    TEST_ctk_strtrimr();
     TEST_ctk_tolower();
     TEST_ctk_toupper();
 }
@@ -121,6 +127,195 @@ static void TEST_ctk_strtoupper(void)
     str_full_actual[255] = '\0';
     str_full_expected[255] = '\0';
     assert(strcmp(ctk_strtoupper(str_full_actual), str_full_expected) == 0);
+    printf("\t%s: OK\n", __func__);
+}
+/*------------------------------------------------------------------------------
+    TEST_ctk_strtrim()
+------------------------------------------------------------------------------*/
+static void TEST_ctk_strtrim(void)
+{
+    // NULL pointer
+    assert(ctk_strtrim(NULL) == NULL);
+    // Empty string
+    char str_empty[] = "";
+    assert(strcmp(ctk_strtrim(str_empty), str_empty) == 0);
+    // No white spaces
+    char str_no_ws[] = "Lorem";
+    assert(strcmp(ctk_strtrim(str_no_ws), str_no_ws) == 0);
+    // Only white spaces: n = 1
+    char str_only_ws_1[] = " ";
+    assert(strcmp(ctk_strtrim(str_only_ws_1), "") == 0);
+    // Only white spaces: n = 5
+    char str_only_ws_5[] = "     ";
+    assert(strcmp(ctk_strtrim(str_only_ws_5), "") == 0);
+    // White spaces: before n = 1
+    char str_ws_b1[] = " Lorem";
+    assert(strcmp(ctk_strtrim(str_ws_b1), "Lorem") == 0);
+    // White spaces: before n = 5
+    char str_ws_b5[] = "     Lorem";
+    assert(strcmp(ctk_strtrim(str_ws_b5), "Lorem") == 0);
+    // White spaces: middle n = 1
+    char str_ws_m1[] = "Lorem ipsum";
+    assert(strcmp(ctk_strtrim(str_ws_m1), str_ws_m1) == 0);
+    // White spaces: middle n = 5
+    char str_ws_m5[] = "Lorem     ipsum";
+    assert(strcmp(ctk_strtrim(str_ws_m5), str_ws_m5) == 0);
+    // White spaces: end n = 1
+    char str_ws_e1[] = "Lorem ";
+    assert(strcmp(ctk_strtrim(str_ws_e1), "Lorem") == 0);
+    // White spaces: end n = 5
+    char str_ws_e5[] = "Lorem     ";
+    assert(strcmp(ctk_strtrim(str_ws_e5), "Lorem") == 0);
+    // White spaces: before - middle n = 1
+    char str_ws_bm1[] = " Lorem ipsum";
+    assert(strcmp(ctk_strtrim(str_ws_bm1), "Lorem ipsum") == 0);
+    // White spaces: before - middle n = 5
+    char str_ws_bm5[] = "     Lorem     ipsum";
+    assert(strcmp(ctk_strtrim(str_ws_bm5), "Lorem     ipsum") == 0);
+    // White spaces: before - end n = 1
+    char str_ws_be1[] = " Lorem ";
+    assert(strcmp(ctk_strtrim(str_ws_be1), "Lorem") == 0);
+    // White spaces: before - end n = 5
+    char str_ws_be5[] = "     Lorem     ";
+    assert(strcmp(ctk_strtrim(str_ws_be5), "Lorem") == 0);
+    // White spaces: middle - end n = 1
+    char str_ws_me1[] = "Lorem ipsum ";
+    assert(strcmp(ctk_strtrim(str_ws_me1), str_ws_me1) == 0);
+    // White spaces: middle - end n = 5
+    char str_ws_me5[] = "Lorem     ipsum     ";
+    assert(strcmp(ctk_strtrim(str_ws_me5), "Lorem     ipsum") == 0);
+    // White spaces: before - middle - end n = 1
+    char str_ws_bme1[] = " Lorem ipsum dolor sit ";
+    assert(strcmp(ctk_strtrim(str_ws_bme1), "Lorem ipsum dolor sit") == 0);
+    // White spaces: before - middle - end n = 5
+    char str_ws_bme5[] = "     Lorem     ipsum     dolor     sit     ";
+    assert(strcmp(ctk_strtrim(str_ws_bme5), "Lorem     ipsum     dolor     sit") == 0);
+    printf("\t%s: OK\n", __func__);
+}
+/*------------------------------------------------------------------------------
+    TEST_ctk_strtriml()
+------------------------------------------------------------------------------*/
+static void TEST_ctk_strtriml(void)
+{
+    // NULL pointer
+    assert(ctk_strtriml(NULL) == NULL);
+    // Empty string
+    char str_empty[] = "";
+    assert(strcmp(ctk_strtriml(str_empty), str_empty) == 0);
+    // No white spaces
+    char str_no_ws[] = "Lorem";
+    assert(strcmp(ctk_strtriml(str_no_ws), str_no_ws) == 0);
+    // Only white spaces: n = 1
+    char str_only_ws_1[] = " ";
+    assert(strcmp(ctk_strtriml(str_only_ws_1), "") == 0);
+    // Only white spaces: n = 5
+    char str_only_ws_5[] = "     ";
+    assert(strcmp(ctk_strtriml(str_only_ws_5), "") == 0);
+    // White spaces: before n = 1
+    char str_ws_b1[] = " Lorem";
+    assert(strcmp(ctk_strtriml(str_ws_b1), "Lorem") == 0);
+    // White spaces: before n = 5
+    char str_ws_b5[] = "     Lorem";
+    assert(strcmp(ctk_strtriml(str_ws_b5), "Lorem") == 0);
+    // White spaces: middle n = 1
+    char str_ws_m1[] = "Lorem ipsum";
+    assert(strcmp(ctk_strtriml(str_ws_m1), str_ws_m1) == 0);
+    // White spaces: middle n = 5
+    char str_ws_m5[] = "Lorem     ipsum";
+    assert(strcmp(ctk_strtriml(str_ws_m5), str_ws_m5) == 0);
+    // White spaces: end n = 1
+    char str_ws_e1[] = "Lorem ";
+    assert(strcmp(ctk_strtriml(str_ws_e1), str_ws_e1) == 0);
+    // White spaces: end n = 5
+    char str_ws_e5[] = "Lorem     ";
+    assert(strcmp(ctk_strtriml(str_ws_e5), str_ws_e5) == 0);
+    // White spaces: before - middle n = 1
+    char str_ws_bm1[] = " Lorem ipsum";
+    assert(strcmp(ctk_strtriml(str_ws_bm1), "Lorem ipsum") == 0);
+    // White spaces: before - middle n = 5
+    char str_ws_bm5[] = "     Lorem     ipsum";
+    assert(strcmp(ctk_strtriml(str_ws_bm5), "Lorem     ipsum") == 0);
+    // White spaces: before - end n = 1
+    char str_ws_be1[] = " Lorem ";
+    assert(strcmp(ctk_strtriml(str_ws_be1), "Lorem ") == 0);
+    // White spaces: before - end n = 5
+    char str_ws_be5[] = "     Lorem     ";
+    assert(strcmp(ctk_strtriml(str_ws_be5), "Lorem     ") == 0);
+    // White spaces: middle - end n = 1
+    char str_ws_me1[] = "Lorem ipsum ";
+    assert(strcmp(ctk_strtriml(str_ws_me1), str_ws_me1) == 0);
+    // White spaces: middle - end n = 5
+    char str_ws_me5[] = "Lorem     ipsum     ";
+    assert(strcmp(ctk_strtriml(str_ws_me5), str_ws_me5) == 0);
+    // White spaces: before - middle - end n = 1
+    char str_ws_bme1[] = " Lorem ipsum dolor sit ";
+    assert(strcmp(ctk_strtriml(str_ws_bme1), "Lorem ipsum dolor sit ") == 0);
+    // White spaces: before - middle - end n = 5
+    char str_ws_bme5[] = "     Lorem     ipsum     dolor     sit     ";
+    assert(strcmp(ctk_strtriml(str_ws_bme5), "Lorem     ipsum     dolor     sit     ") == 0);
+    printf("\t%s: OK\n", __func__);
+}
+/*------------------------------------------------------------------------------
+    TEST_ctk_strtrimr()
+------------------------------------------------------------------------------*/
+static void TEST_ctk_strtrimr(void)
+{
+    // NULL pointer
+    assert(ctk_strtrimr(NULL) == NULL);
+    // Empty string
+    char str_empty[] = "";
+    assert(strcmp(ctk_strtrimr(str_empty), str_empty) == 0);
+    // No white spaces
+    char str_no_ws[] = "Lorem";
+    assert(strcmp(ctk_strtrimr(str_no_ws), str_no_ws) == 0);
+    // Only white spaces: n = 1
+    char str_only_ws_1[] = " ";
+    assert(strcmp(ctk_strtrimr(str_only_ws_1), "") == 0);
+    // Only white spaces: n = 5
+    char str_only_ws_5[] = "     ";
+    assert(strcmp(ctk_strtrimr(str_only_ws_5), "") == 0);
+    // White spaces: before n = 1
+    char str_ws_b1[] = " Lorem";
+    assert(strcmp(ctk_strtrimr(str_ws_b1), str_ws_b1) == 0);
+    // White spaces: before n = 5
+    char str_ws_b5[] = "     Lorem";
+    assert(strcmp(ctk_strtrimr(str_ws_b5), str_ws_b5) == 0);
+    // White spaces: middle n = 1
+    char str_ws_m1[] = "Lorem ipsum";
+    assert(strcmp(ctk_strtrimr(str_ws_m1), str_ws_m1) == 0);
+    // White spaces: middle n = 5
+    char str_ws_m5[] = "Lorem     ipsum";
+    assert(strcmp(ctk_strtrimr(str_ws_m5), str_ws_m5) == 0);
+    // White spaces: end n = 1
+    char str_ws_e1[] = "Lorem ";
+    assert(strcmp(ctk_strtrimr(str_ws_e1), "Lorem") == 0);
+    // White spaces: end n = 5
+    char str_ws_e5[] = "Lorem     ";
+    assert(strcmp(ctk_strtrimr(str_ws_e5), "Lorem") == 0);
+    // White spaces: before - middle n = 1
+    char str_ws_bm1[] = " Lorem ipsum";
+    assert(strcmp(ctk_strtrimr(str_ws_bm1), str_ws_bm1) == 0);
+    // White spaces: before - middle n = 5
+    char str_ws_bm5[] = "     Lorem     ipsum";
+    assert(strcmp(ctk_strtrimr(str_ws_bm5), str_ws_bm5) == 0);
+    // White spaces: before - end n = 1
+    char str_ws_be1[] = " Lorem ";
+    assert(strcmp(ctk_strtrimr(str_ws_be1), " Lorem") == 0);
+    // White spaces: before - end n = 5
+    char str_ws_be5[] = "     Lorem     ";
+    assert(strcmp(ctk_strtrimr(str_ws_be5), "     Lorem") == 0);
+    // White spaces: middle - end n = 1
+    char str_ws_me1[] = "Lorem ipsum ";
+    assert(strcmp(ctk_strtrimr(str_ws_me1), "Lorem ipsum") == 0);
+    // White spaces: middle - end n = 5
+    char str_ws_me5[] = "Lorem     ipsum     ";
+    assert(strcmp(ctk_strtrimr(str_ws_me5), "Lorem     ipsum") == 0);
+    // White spaces: before - middle - end n = 1
+    char str_ws_bme1[] = " Lorem ipsum dolor sit ";
+    assert(strcmp(ctk_strtrimr(str_ws_bme1), " Lorem ipsum dolor sit") == 0);
+    // White spaces: before - middle - end n = 5
+    char str_ws_bme5[] = "     Lorem     ipsum     dolor     sit     ";
+    assert(strcmp(ctk_strtrimr(str_ws_bme5), "     Lorem     ipsum     dolor     sit") == 0);
     printf("\t%s: OK\n", __func__);
 }
 /*------------------------------------------------------------------------------

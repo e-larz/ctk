@@ -87,6 +87,40 @@ char * ctk_strtoupper(char * str)
     return start;
 }
 /*------------------------------------------------------------------------------
+    ctk_strtrim()
+------------------------------------------------------------------------------*/
+char * ctk_strtrim(char * const str)
+{
+    CTK_ERROR_RET_NULL_IF(str == NULL);
+    return ctk_strtriml(ctk_strtrimr(str));
+}
+/*------------------------------------------------------------------------------
+    ctk_strtriml()
+------------------------------------------------------------------------------*/
+char * ctk_strtriml(char * const str)
+{
+    CTK_ERROR_RET_NULL_IF(str == NULL);
+    char * it = str;
+    while(isspace(*it)) {
+        it++;
+    }
+    return memmove(str, it, strlen(it)+1);
+}
+/*------------------------------------------------------------------------------
+    ctk_strtrimr()
+------------------------------------------------------------------------------*/
+char * ctk_strtrimr(char * const str)
+{
+    CTK_ERROR_RET_NULL_IF(str == NULL);
+    // Point to the first character before '\0'
+    char * it = str + strlen(str) - 1;
+    while(it && isspace(*it)) {
+        it--;
+    }
+    *++it = '\0';
+    return str;
+}
+/*------------------------------------------------------------------------------
     ctk_tolower()
 ------------------------------------------------------------------------------*/
 int ctk_tolower(int c)
