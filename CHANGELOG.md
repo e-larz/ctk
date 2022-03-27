@@ -16,7 +16,9 @@ which says in its summary:
 ### Added
 
 - `ctk_error.h`
-  - `CTK_ERROR_RET_EOF_IF()`: Make a function return `EOF` if the given
+  - `CTK_ERROR_RET_EOF_IF()`: Makes a function return `EOF` if the given
+    condition is true.
+  - `CTK_ERROR_RET_FALSE_IF()`: Makes a function return `false` if the given
     condition is true.
 - `ctk_string.h`
   - `ctk_strtolower()`: Converts in-place a null-terminated string to lower case.

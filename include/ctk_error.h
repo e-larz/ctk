@@ -127,6 +127,20 @@
  */
 #define CTK_ERROR_RET_EOF_IF(cond)                                             \
     CTK_ERROR_RET_VAL_IF(cond, EOF)
+/*------------------------------------------------------------------------------
+    CTK_ERROR_RET_FALSE_IF()
+------------------------------------------------------------------------------*/
+/**
+ * Makes the calling fuction return `false` if \p{cond} is true.
+ *
+ * @param[in] cond : Condition to be evaluated.
+ *
+ * @example{
+ *   CTK_ERROR_RET_FALSE_IF(buf == NULL);
+ * }
+ */
+#define CTK_ERROR_RET_FALSE_IF(cond)                                           \
+    CTK_ERROR_RET_VAL_IF(cond, false)
 /*==============================================================================
     GUARD
 ==============================================================================*/

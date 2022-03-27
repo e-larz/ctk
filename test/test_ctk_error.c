@@ -29,6 +29,7 @@
 #include "ctk_error.h"
 // C Standard Library
 #include <assert.h>
+#include <stdbool.h>
 #include <stdio.h> // EOF, NULL, printf()
 /*==============================================================================
     FUNCTION DECLARATION
@@ -39,6 +40,7 @@ static void TEST_CTK_ERROR_RET_VAL_IF(void);
 static void TEST_CTK_ERROR_RET_NULL_IF(void);
 static void TEST_CTK_ERROR_RET_0_IF(void);
 static void TEST_CTK_ERROR_RET_EOF_IF(void);
+static void TEST_CTK_ERROR_RET_FALSE_IF(void);
 /*==============================================================================
     FUNCTION DEFINITION
 ==============================================================================*/
@@ -54,6 +56,7 @@ void TEST_ctk_error(void)
     TEST_CTK_ERROR_RET_NULL_IF();
     TEST_CTK_ERROR_RET_0_IF();
     TEST_CTK_ERROR_RET_EOF_IF();
+    TEST_CTK_ERROR_RET_FALSE_IF();
 }
 /*------------------------------------------------------------------------------
     TEST_CTK_ERROR_RET_VAL_IF_MSG()
@@ -137,5 +140,19 @@ static void TEST_CTK_ERROR_RET_EOF_IF(void)
 {
     assert(test_ctk_error_ret_eof_if(0) == EOF);
     assert(test_ctk_error_ret_eof_if(1) != EOF);
+    printf("\t%s: OK\n", __func__);
+}
+/*------------------------------------------------------------------------------
+    TEST_CTK_ERROR_RET_EOF_IF()
+------------------------------------------------------------------------------*/
+static _Bool test_ctk_error_ret_false_if(int x)
+{
+    CTK_ERROR_RET_FALSE_IF(x == 0);
+    return true;
+}
+static void TEST_CTK_ERROR_RET_FALSE_IF(void)
+{
+    assert(test_ctk_error_ret_false_if(0) == false);
+    assert(test_ctk_error_ret_false_if(1) != false);
     printf("\t%s: OK\n", __func__);
 }
