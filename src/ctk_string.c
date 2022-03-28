@@ -63,28 +63,28 @@ int ctk_strerror_r(const int errnum, char * const result, const size_t length)
 /*------------------------------------------------------------------------------
     ctk_strtolower()
 ------------------------------------------------------------------------------*/
-char * ctk_strtolower(char * str)
+char * ctk_strtolower(char * const str)
 {
     CTK_ERROR_RET_NULL_IF(str == NULL);
-    char * const start = str;
-    while(*str) {
-        const int c = (unsigned char)*str;
-        *str++ = (char)ctk_tolower(c);
+    char * it = str;
+    while(*it) {
+        const int c = (unsigned char)*it;
+        *it++ = (char)ctk_tolower(c);
     }
-    return start;
+    return str;
 }
 /*------------------------------------------------------------------------------
     ctk_strtoupper()
 ------------------------------------------------------------------------------*/
-char * ctk_strtoupper(char * str)
+char * ctk_strtoupper(char * const str)
 {
     CTK_ERROR_RET_NULL_IF(str == NULL);
-    char * const start = str;
-    while(*str) {
-        const int c = (unsigned char)*str;
-        *str++ = (char)ctk_toupper(c);
+    char * it = str;
+    while(*it) {
+        const int c = (unsigned char)*it;
+        *it++ = (char)ctk_toupper(c);
     }
-    return start;
+    return str;
 }
 /*------------------------------------------------------------------------------
     ctk_strtrim()
@@ -123,7 +123,7 @@ char * ctk_strtrimr(char * const str)
 /*------------------------------------------------------------------------------
     ctk_tolower()
 ------------------------------------------------------------------------------*/
-int ctk_tolower(int c)
+int ctk_tolower(const int c)
 {
     if((c < 0 || c > UCHAR_MAX) && c != EOF) {
         return c;
@@ -133,7 +133,7 @@ int ctk_tolower(int c)
 /*------------------------------------------------------------------------------
     ctk_toupper()
 ------------------------------------------------------------------------------*/
-int ctk_toupper(int c)
+int ctk_toupper(const int c)
 {
     if((c < 0 || c > UCHAR_MAX) && c != EOF) {
         return c;
