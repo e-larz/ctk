@@ -63,30 +63,30 @@ void TEST_ctk_error(void)
 /*------------------------------------------------------------------------------
     TEST_CTK_ERROR_RET_VAL_IF_MSG()
 ------------------------------------------------------------------------------*/
-static int test_ctk_error_ret_val_if_msg(int x, const char * const msg)
+static int test_ctk_error_ret_val_if_msg(_Bool cond, const char * const msg)
 {
     if(msg){}
-    CTK_ERROR_RET_VAL_IF_MSG(x == 0, 0, msg);
+    CTK_ERROR_RET_VAL_IF_MSG(cond, 0, msg);
     return 1;
 }
 static void TEST_CTK_ERROR_RET_VAL_IF_MSG(void)
 {
-    assert(test_ctk_error_ret_val_if_msg(0, "Returning 0") == 0);
-    assert(test_ctk_error_ret_val_if_msg(1, "Returning 1") == 1);
+    assert(test_ctk_error_ret_val_if_msg(true, "Returning 0")  == 0);
+    assert(test_ctk_error_ret_val_if_msg(false, "Returning 1") == 1);
     printf("\t%s: OK\n", __func__);
 }
 /*------------------------------------------------------------------------------
     TEST_CTK_ERROR_RET_VAL_IF()
 ------------------------------------------------------------------------------*/
-static int test_ctk_error_ret_val_if(int x)
+static int test_ctk_error_ret_val_if(_Bool cond)
 {
-    CTK_ERROR_RET_VAL_IF(x == 0, 0);
+    CTK_ERROR_RET_VAL_IF(cond, 0);
     return 1;
 }
 static void TEST_CTK_ERROR_RET_VAL_IF(void)
 {
-    assert(test_ctk_error_ret_val_if(0) == 0);
-    assert(test_ctk_error_ret_val_if(1) == 1);
+    assert(test_ctk_error_ret_val_if(true)  == 0);
+    assert(test_ctk_error_ret_val_if(false) == 1);
     printf("\t%s: OK\n", __func__);
 }
 /*------------------------------------------------------------------------------
@@ -105,57 +105,57 @@ static void TEST_CTK_ERROR_RET_IF(void)
 /*------------------------------------------------------------------------------
     TEST_CTK_ERROR_RET_NULL_IF()
 ------------------------------------------------------------------------------*/
-static void * test_ctk_error_ret_null_if(int x)
+static void * test_ctk_error_ret_null_if(_Bool cond)
 {
-    CTK_ERROR_RET_NULL_IF(x == 0);
+    CTK_ERROR_RET_NULL_IF(cond);
     return &(int){1};
 }
 static void TEST_CTK_ERROR_RET_NULL_IF(void)
 {
-    assert(test_ctk_error_ret_null_if(0) == NULL);
-    assert(test_ctk_error_ret_null_if(1) != NULL);
+    assert(test_ctk_error_ret_null_if(true)  == NULL);
+    assert(test_ctk_error_ret_null_if(false) != NULL);
     printf("\t%s: OK\n", __func__);
 }
 /*------------------------------------------------------------------------------
     TEST_CTK_ERROR_RET_0_IF()
 ------------------------------------------------------------------------------*/
-static int test_ctk_error_ret_0_if(int x)
+static int test_ctk_error_ret_0_if(_Bool cond)
 {
-    CTK_ERROR_RET_0_IF(x == 0);
+    CTK_ERROR_RET_0_IF(cond);
     return 1;
 }
 static void TEST_CTK_ERROR_RET_0_IF(void)
 {
-    assert(test_ctk_error_ret_0_if(0) == 0);
-    assert(test_ctk_error_ret_0_if(1) != 0);
+    assert(test_ctk_error_ret_0_if(true)  == 0);
+    assert(test_ctk_error_ret_0_if(false) != 0);
     printf("\t%s: OK\n", __func__);
 }
 /*------------------------------------------------------------------------------
     TEST_CTK_ERROR_RET_EOF_IF()
 ------------------------------------------------------------------------------*/
-static int test_ctk_error_ret_eof_if(int x)
+static int test_ctk_error_ret_eof_if(_Bool cond)
 {
-    CTK_ERROR_RET_EOF_IF(x == 0);
+    CTK_ERROR_RET_EOF_IF(cond);
     return 1;
 }
 static void TEST_CTK_ERROR_RET_EOF_IF(void)
 {
-    assert(test_ctk_error_ret_eof_if(0) == EOF);
-    assert(test_ctk_error_ret_eof_if(1) != EOF);
+    assert(test_ctk_error_ret_eof_if(true)  == EOF);
+    assert(test_ctk_error_ret_eof_if(false) != EOF);
     printf("\t%s: OK\n", __func__);
 }
 /*------------------------------------------------------------------------------
     TEST_CTK_ERROR_RET_FALSE_IF()
 ------------------------------------------------------------------------------*/
-static _Bool test_ctk_error_ret_false_if(int x)
+static _Bool test_ctk_error_ret_false_if(_Bool cond)
 {
-    CTK_ERROR_RET_FALSE_IF(x == 0);
+    CTK_ERROR_RET_FALSE_IF(cond);
     return true;
 }
 static void TEST_CTK_ERROR_RET_FALSE_IF(void)
 {
-    assert(test_ctk_error_ret_false_if(0) == false);
-    assert(test_ctk_error_ret_false_if(1) != false);
+    assert(test_ctk_error_ret_false_if(true)  == false);
+    assert(test_ctk_error_ret_false_if(false) != false);
     printf("\t%s: OK\n", __func__);
 }
 /*------------------------------------------------------------------------------
