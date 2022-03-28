@@ -20,6 +20,8 @@ which says in its summary:
     condition is true.
   - `CTK_ERROR_RET_FALSE_IF()`: Makes a function return `false` if the given
     condition is true.
+  - `CTK_ERROR_RET_NEG_1_IF()` Makes a function return `-1` if the given
+    condition is true.
 - `ctk_string.h`
   - `ctk_strtolower()`: Converts in-place a null-terminated string to lower case.
   - `ctk_strtoupper()`: Converts in-place a null-terminated string to upper case.

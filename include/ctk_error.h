@@ -141,6 +141,20 @@
  */
 #define CTK_ERROR_RET_FALSE_IF(cond)                                           \
     CTK_ERROR_RET_VAL_IF(cond, false)
+/*------------------------------------------------------------------------------
+    CTK_ERROR_RET_NEG_1_IF()
+------------------------------------------------------------------------------*/
+/**
+ * Makes the calling fuction return `-1` if \p{cond} is true.
+ *
+ * @param[in] cond : Condition to be evaluated.
+ *
+ * @example{
+ *   CTK_ERROR_RET_NEG_1_IF(buf == NULL);
+ * }
+ */
+#define CTK_ERROR_RET_NEG_1_IF(cond)                                           \
+    CTK_ERROR_RET_VAL_IF(cond, -1)
 /*==============================================================================
     GUARD
 ==============================================================================*/

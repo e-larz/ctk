@@ -41,6 +41,7 @@ static void TEST_CTK_ERROR_RET_NULL_IF(void);
 static void TEST_CTK_ERROR_RET_0_IF(void);
 static void TEST_CTK_ERROR_RET_EOF_IF(void);
 static void TEST_CTK_ERROR_RET_FALSE_IF(void);
+static void TEST_CTK_ERROR_RET_NEG_1_IF(void);
 /*==============================================================================
     FUNCTION DEFINITION
 ==============================================================================*/
@@ -57,6 +58,7 @@ void TEST_ctk_error(void)
     TEST_CTK_ERROR_RET_0_IF();
     TEST_CTK_ERROR_RET_EOF_IF();
     TEST_CTK_ERROR_RET_FALSE_IF();
+    TEST_CTK_ERROR_RET_NEG_1_IF();
 }
 /*------------------------------------------------------------------------------
     TEST_CTK_ERROR_RET_VAL_IF_MSG()
@@ -143,7 +145,7 @@ static void TEST_CTK_ERROR_RET_EOF_IF(void)
     printf("\t%s: OK\n", __func__);
 }
 /*------------------------------------------------------------------------------
-    TEST_CTK_ERROR_RET_EOF_IF()
+    TEST_CTK_ERROR_RET_FALSE_IF()
 ------------------------------------------------------------------------------*/
 static _Bool test_ctk_error_ret_false_if(int x)
 {
@@ -154,5 +156,19 @@ static void TEST_CTK_ERROR_RET_FALSE_IF(void)
 {
     assert(test_ctk_error_ret_false_if(0) == false);
     assert(test_ctk_error_ret_false_if(1) != false);
+    printf("\t%s: OK\n", __func__);
+}
+/*------------------------------------------------------------------------------
+    TEST_CTK_ERROR_RET_NEG_1_IF()
+------------------------------------------------------------------------------*/
+static int test_ctk_error_ret_neg_1_if(_Bool cond)
+{
+    CTK_ERROR_RET_NEG_1_IF(cond);
+    return 0;
+}
+static void TEST_CTK_ERROR_RET_NEG_1_IF(void)
+{
+    assert(test_ctk_error_ret_neg_1_if(true)  == -1);
+    assert(test_ctk_error_ret_neg_1_if(false) != -1);
     printf("\t%s: OK\n", __func__);
 }
