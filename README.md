@@ -1,11 +1,14 @@
 # CTK - C Toolkit
 
-[![pipeline status](https://gitlab.com/callback/ctl/badges/master/pipeline.svg)](https://gitlab.com/callback/ctk/-/commits/master)
+[![pipeline status](https://gitlab.com/callback/ctk/badges/master/pipeline.svg)](https://gitlab.com/callback/ctk/-/commits/master)
 [![license](https://img.shields.io/badge/license-0BSD-blue)](LICENSE)
 [![doxygen](https://img.shields.io/badge/doc-doxygen-blue)](https://callback.gitlab.io/ctk)
 
 A `C11` library providing some convenient, portable and safe low-level functions
-for memory allocation, I/O, time, errors, etc.
+for memory allocation, I/O, string, time, errors, etc.
+
+Most of them are wrappers around standard and/or POSIX functions to provide
+enhanced safety and/or portability.
 
 ## Table of Contents
 
