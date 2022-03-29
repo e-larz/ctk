@@ -17,7 +17,7 @@
  * }
  *
  * @brief
- * Provide string related functions.
+ * Provide various functions to manipulate null-terminated strings.
  */
 /*==============================================================================
     GUARD
@@ -88,10 +88,10 @@ int ctk_strerror_r(int errnum, char * result, size_t length);
  *
  * @param[in,out] str : The string to convert.
  *
- * @return \p{str}.
+ * @return A pointer to the beginning of the modified string.
  *
  * @warning
- * - \p{str} must be a pointer to a null-terminated string.
+ * - \b [UB] \p{str} must be a pointer to a null-terminated string.
  */
 char * ctk_strtolower(char * str);
 /*------------------------------------------------------------------------------
@@ -102,10 +102,10 @@ char * ctk_strtolower(char * str);
  *
  * @param[in,out] str : The string to convert.
  *
- * @return \p{str}.
+ * @return A pointer to the beginning of the modified string.
  *
  * @warning
- * - \p{str} must be a pointer to a null-terminated string.
+ * - \b [UB] \p{str} must be a pointer to a null-terminated string.
  */
 char * ctk_strtoupper(char * str);
 /*------------------------------------------------------------------------------
@@ -116,9 +116,7 @@ char * ctk_strtoupper(char * str);
  *
  * @param[in] str : The string to trim.
  *
- * @return
- * - @success: A pointer to the beginning of the string.
- * - @failure: `NULL`.
+ * @return A pointer to the beginning of the modified string.
  *
  * @warning
  * - \b [UB] \p{str} must be a pointer to a null-terminated string.
@@ -130,11 +128,13 @@ char * ctk_strtrim(char * str);
 /**
  * Trims in-place a null-terminated string from the left.
  *
+ * This function uses `memmove()` to be able to remove whitespaces and still
+ * return a pointer to the beginning of the string and will therefore be slower
+ * than its `ctk_strimr()` counterpart.
+ *
  * @param[in] str : The string to trim.
  *
- * @return
- * - @success: A pointer to the beginning of the string.
- * - @failure: `NULL`.
+ * @return A pointer to the beginning of the modified string.
  *
  * @warning
  * - \b [UB] \p{str} must be a pointer to a null-terminated string.
@@ -148,9 +148,7 @@ char * ctk_strtriml(char * str);
  *
  * @param[in] str : The string to trim.
  *
- * @return
- * - @success: A pointer to the beginning of the string.
- * - @failure: `NULL`.
+ * @return A pointer to the beginning of the modified string.
  *
  * @warning
  * - \b [UB] \p{str} must be a pointer to a null-terminated string.
@@ -170,7 +168,7 @@ char * ctk_strtrimr(char * str);
  *
  * @return
  * - @success: The lowercase version of \p{c}.
- * - @failure: \p{c}.
+ * - @failure: Unmodified \p{c}.
  *
  * @see
  * - @C17{7,4,2,1}
@@ -191,7 +189,7 @@ int ctk_tolower(int c);
  *
  * @return
  * - @success: The uppercase version of \p{c}.
- * - @failure: \p{c}.
+ * - @failure: Unmodified \p{c}.
  *
  * @see
  * - @C17{7,4,2,2}
