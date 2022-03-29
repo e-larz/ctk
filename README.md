@@ -148,13 +148,13 @@ A `C11` compliant compiler is needed to compile the code.
 [Download](https://gitlab.com/callback/ctk/-/archive/master/ctk-master.zip) or
 clone the repository:
 
-```
+```console
 git clone https://gitlab.com/callback/ctk.git
 ```
 
 Optionally run the tests:
 
-```
+```console
 cd ctk
 make all
 make check
@@ -162,13 +162,13 @@ make check
 
 Install the library to the standard default location `/usr/local/include/ctk`:
 
-```
+```console
 make install
 ```
 
 Or install them to a different path `/my/custom/path/include/ctl`:
 
-```
+```console
 make install prefix=/my/custom/path
 ```
 
