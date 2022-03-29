@@ -8,7 +8,9 @@ A `C11` library providing some convenient, portable and safe low-level functions
 for memory allocation, I/O, string, time, errors, etc.
 
 Most of them are wrappers around standard and/or POSIX functions to provide
-enhanced safety and/or portability.
+enhanced safety and/or portability(which is restricted to POSIX for now).
+Safety consists in having well-defined and documented behaviors where the C
+standard allow them to be implementation-defined or undefined.
 
 ## Table of Contents
 
@@ -38,20 +40,25 @@ int main(int argc, char * argv[])
     // Calling malloc(0) is implemtentation-defined, ctk_malloc(0) return NULL
     // in this case.
     char * str_cpy = ctk_malloc(0);
-    // Will trigger because of the above
+    // Will trigger because of the above. Some implementations of malloc()
+    // return a non-null pointer, giving the wrong impression that the
+    // allocation succeeded when it's actually an undefined behavior to
+    // dereference that pointer.
     if(str_cpy == NULL) {
         fprintf(stderr, "ctk_malloc() failed!\n");
     }
     char * str_cpy = ctk_malloc(strlen(str) + 1);
-    // Won't trigger(not taking into account possible errors on the system side)
+    // Won't trigger(not taking into account possible errors on the system side).
     if(str_cpy == NULL) {
         fprintf(stderr, "ctk_malloc() failed!\n");
     }
     strcpy(str_cpy, str);
     printf("%s\n", str_cpy);
-    // Free str_cpy and set it to NULL(notice the `&`)
+    // A pointer should be set to NULL immediately after being freed.
+    // ctk_free() does that automatically by taking a double pointer.
     ctk_free(&str_cpy);
-    // OK: str_cpy has been set to NULL
+    // Freeing a pointer two times in a row is an undefined behavior, freeing a
+    // NULL pointer isn't.
     free(str_cpy);
 
     return EXIT_SUCCESS;
