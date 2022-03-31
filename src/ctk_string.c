@@ -108,11 +108,8 @@ char * ctk_strtriml(char * const str)
 char * ctk_strtrimr(char * const str)
 {
     CTK_ERROR_RET_NULL_IF(str == NULL);
-    // Point to the first character before '\0'
-    char * it = str + strlen(str) - 1;
-    while(it && isspace(*it)) {
-        it--;
-    }
+    char * it = str + strlen(str);
+    while((it-- > str) && isspace(*it)){}
     *++it = '\0';
     return str;
 }
