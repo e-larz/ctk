@@ -66,10 +66,8 @@ int ctk_strerror_r(const int errnum, char * const result, const size_t length)
 char * ctk_strtolower(char * const str)
 {
     CTK_ERROR_RET_NULL_IF(str == NULL);
-    char * it = str;
-    while(*it) {
-        const int c = (unsigned char)*it;
-        *it++ = (char)ctk_tolower(c);
+    for(char * it = str; *it; it++) {
+        *it = (char)ctk_tolower(*it);
     }
     return str;
 }
@@ -79,10 +77,8 @@ char * ctk_strtolower(char * const str)
 char * ctk_strtoupper(char * const str)
 {
     CTK_ERROR_RET_NULL_IF(str == NULL);
-    char * it = str;
-    while(*it) {
-        const int c = (unsigned char)*it;
-        *it++ = (char)ctk_toupper(c);
+    for(char * it = str; *it; it++) {
+        *it = (char)ctk_toupper(*it);
     }
     return str;
 }
