@@ -112,14 +112,20 @@ char * ctk_strtoupper(char * str);
     ctk_strtrim()
 ------------------------------------------------------------------------------*/
 /**
- * Trims in-place a null-terminated string.
+ * Removes leading and trailing whitespaces from a null-terminated string.
+ *
+ * - Whitespaces are the characters for which `isspace()` returns true.
+ * - The string pointed by \p{str} may be modified by this function.
  *
  * @param[in] str : The string to trim.
  *
- * @return A pointer to the beginning of the modified string.
+ * @return A pointer to the first non-whitespace character of \p{str}.
  *
  * @warning
  * - \b [UB] \p{str} must be a pointer to a null-terminated string.
+ * - \b [UB] The returned pointer must not be passed to `free()`.
+ * - \b [UB] The returned pointer must not be dereferenced after freeing
+ *           \p{str}.
  */
 char * ctk_strtrim(char * str);
 /*------------------------------------------------------------------------------
@@ -146,7 +152,10 @@ char * ctk_strtriml(char * str);
     ctk_strtrimr()
 ------------------------------------------------------------------------------*/
 /**
- * Trims in-place a null-terminated string from the right.
+ * Removes trailing whitespaces from a null-terminated string.
+ *
+ * - Whitespaces are the characters for which `isspace()` returns true.
+ * - The string pointed by \p{str} may be modified by this function.
  *
  * @param[in] str : The string to trim.
  *
@@ -154,6 +163,8 @@ char * ctk_strtriml(char * str);
  *
  * @warning
  * - \b [UB] \p{str} must be a pointer to a null-terminated string.
+ * - \b [UB] The returned pointer must not be dereferenced after freeing
+ *           \p{str}.
  */
 char * ctk_strtrimr(char * str);
 /*------------------------------------------------------------------------------
