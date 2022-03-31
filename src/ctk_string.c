@@ -97,10 +97,8 @@ char * ctk_strtriml(char * const str)
 {
     CTK_ERROR_RET_NULL_IF(str == NULL);
     char * it = str;
-    while(isspace(*it)) {
-        it++;
-    }
-    return memmove(str, it, strlen(it)+1);
+    while(isspace(*it) && it++){}
+    return it;
 }
 /*------------------------------------------------------------------------------
     ctk_strtrimr()
