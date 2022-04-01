@@ -81,6 +81,31 @@
  */
 int ctk_strerror_r(int errnum, char * result, size_t length);
 /*------------------------------------------------------------------------------
+    ctk_strrstr()
+------------------------------------------------------------------------------*/
+/**
+ * Finds the last occurrence of \p{substr} in \p{str}.
+ *
+ * - Terminating null characters are excluded from the search.
+ * - Both \p{str} and \p{substr} can be string litterals.
+ *
+ * @param[in] str    : The string to search in.
+ * @param[in] substr : The string to search for.
+ *
+ * @return
+ * - @success:
+ *   - A pointer to the position in \p{str} where \p{substr} is found.
+ *   - A pointer to the beginning of \p{str} if \p{substr} is an empty string.
+ * - @failure: `NULL`.
+ *
+ * @warning
+ * - \b [UB] \p{str} must be a pointer to a null-terminated string.
+ * - \b [UB] \p{substr} must be a pointer to a null-terminated string.
+ * - \b [UB] The returned pointer must not be dereferenced after freeing
+ *           \p{str}.
+ */
+char * ctk_strrstr(const char * str, const char * substr);
+/*------------------------------------------------------------------------------
     ctk_strtolower()
 ------------------------------------------------------------------------------*/
 /**

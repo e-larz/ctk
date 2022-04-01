@@ -25,9 +25,10 @@ which says in its summary:
 - `ctk_string.h`
   - `ctk_strtolower()`: Converts in-place a null-terminated string to lower case.
   - `ctk_strtoupper()`: Converts in-place a null-terminated string to upper case.
-  - `ctk_strtrim()`: Trims in-place a null-terminated string.
-  - `ctk_strtriml()`: Trims in-place a null-terminated string from the left.
-  - `ctk_strtrimr()`: Trims in-place a null-terminated string from the right.
+  - `ctk_strrstr()`: Finds the last occurrence of a substring in a string.
+  - `ctk_strtrim()`: Removes leading and trailing whitespaces from a null-terminated string.
+  - `ctk_strtriml()`: Removes leading whitespaces from a null-terminated string.
+  - `ctk_strtrimr()`: Removes trailing whitespaces from a null-terminated string.
   - `ctk_tolower()`: Safe wrapper around `tolower()`.
   - `ctk_toupper()`: Safe wrapper around `toupper()`.
 

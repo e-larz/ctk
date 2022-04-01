@@ -61,6 +61,27 @@ int ctk_strerror_r(const int errnum, char * const result, const size_t length)
 #endif
 }
 /*------------------------------------------------------------------------------
+    ctk_strrstr()
+------------------------------------------------------------------------------*/
+/*! @cast Dropping the `const` qualifier when returning the result is necessary
+* to have a single function that can be used with both constant and non-constant
+* strings.
+*/
+char * ctk_strrstr(const char * const str, const char * const  substr)
+{
+    CTK_ERROR_RET_NULL_IF(str == NULL);
+    CTK_ERROR_RET_NULL_IF(substr == NULL);
+    if(substr[0] == '\0') {
+        return (char *)str;
+    }
+    const char * found = NULL;
+    const char * it = str;
+    while((it = strstr(it, substr))) {
+        found = it++;
+    }
+    return (char *)found;
+}
+/*------------------------------------------------------------------------------
     ctk_strtolower()
 ------------------------------------------------------------------------------*/
 char * ctk_strtolower(char * const str)

@@ -38,6 +38,7 @@
     FUNCTION DECLARATION
 ==============================================================================*/
 static void TEST_ctk_strerror_r(void);
+static void TEST_ctk_strrstr(void);
 static void TEST_ctk_strtolower(void);
 static void TEST_ctk_strtoupper(void);
 static void TEST_ctk_strtrim(void);
@@ -55,6 +56,7 @@ void TEST_ctk_string(void)
 {
     printf("%s:\n", __func__);
     TEST_ctk_strerror_r();
+    TEST_ctk_strrstr();
     TEST_ctk_strtolower();
     TEST_ctk_strtoupper();
     TEST_ctk_strtrim();
@@ -81,6 +83,63 @@ static void TEST_ctk_strerror_r(void)
     assert(strcmp(error, strerror(-1)) == 0);
     assert(ctk_strerror_r(0, NULL, CTK_STRING_ERR_LENGTH) == EINVAL);
     assert(ctk_strerror_r(0, error, 0) == ERANGE);
+    printf("\t%s: OK\n", __func__);
+}
+/*------------------------------------------------------------------------------
+    TEST_ctk_strrstr()
+------------------------------------------------------------------------------*/
+static void TEST_ctk_strrstr(void)
+{
+    // Haystack and needle are NULL
+    assert(ctk_strrstr(NULL, NULL) == NULL);
+    // Haystack is NULL and needle is empty
+    assert(ctk_strrstr(NULL, "") == NULL);
+    // Haystack is empty and needle is NULL
+    assert(ctk_strrstr("", NULL) == NULL);
+    // Haystack and needle are empty
+    assert(strcmp(ctk_strrstr("", ""), "") == 0);
+    // Haystack is random and needle is empty
+    assert(strcmp(ctk_strrstr(">X,3?in.a{g>>qRc", ""), ">X,3?in.a{g>>qRc") == 0);
+    // Haystack is empty and needle is random
+    assert(ctk_strrstr("", ">X,3?in.a{g>>qRc") == NULL);
+    // Haystack is a truncated needle
+    assert(ctk_strrstr(">X,3?in", ">X,3?in.a{g>>qRc") == NULL);
+    // Haystack and needle are one char long and don't match
+    assert(ctk_strrstr("a", "b") == NULL);
+    // Haystack and needle are one char long and match
+    assert(strcmp(ctk_strrstr("a", "a"), "a") == 0);
+    // Haystack and needle are multiple char long and match exactly
+    assert(strcmp(ctk_strrstr(">X,3?in.a{g>>qRc", ">X,3?in.a{g>>qRc"), ">X,3?in.a{g>>qRc") == 0);
+    // Needle is at the beggining of haystack
+    assert(strcmp(ctk_strrstr(">X,3?in.a{g>>qRc", ">X,3?in"), ">X,3?in.a{g>>qRc") == 0);
+    // Needle is in the middle of haystack
+    assert(strcmp(ctk_strrstr(">X,3?in.a{g>>qRc", "in.a{g>"), "in.a{g>>qRc") == 0);
+    // Needle is at the end of haystack
+    assert(strcmp(ctk_strrstr(">X,3?in.a{g>>qRc", "{g>>qRc"), "{g>>qRc") == 0);
+    // Needle is at the end of haystack but has one char too many
+    assert(ctk_strrstr(">X,3?in.a{g>>qRc", "{g>>qRcX") == NULL);
+    // Haystack has multiple adjacent needles
+    assert(strcmp(ctk_strrstr(">X,3?i3?i3?i>qRc", "3?i"), "3?i>qRc") == 0);
+    // Haystack has multiple non-adjacent needles
+    assert(strcmp(ctk_strrstr(">X,3?in.3?i>3?ic", "3?i"), "3?ic") == 0);
+    // Needle is at the beginning but its first char is wrong
+    assert(ctk_strrstr(">X,3?in.a{g>>qRc", "<X,3?in") == NULL);
+    // Needle is at the beginning but a char in its middle is wrong
+    assert(ctk_strrstr(">X,3?in.a{g>>qRc", ">X,!3in") == NULL);
+    // Needle is at the beginning but its last char is wrong
+    assert(ctk_strrstr(">X,3?in.a{g>>qRc", ">X,3?im") == NULL);
+    // Needle is in the middle but its first char is wrong
+    assert(ctk_strrstr(">X,3?in.a{g>>qRc", "jn.a{g>") == NULL);
+    // Needle is in the middle but a char in its middle is wrong
+    assert(ctk_strrstr(">X,3?in.a{g>>qRc", "in.b{g>") == NULL);
+    // Needle is in the middle but its last char is wrong
+    assert(ctk_strrstr(">X,3?in.a{g>>qRc", "in.a{g<") == NULL);
+    // Needle is at the end but its first char is wrong
+    assert(ctk_strrstr(">X,3?in.a{g>>qRc", "}g>>qRc") == NULL);
+    // Needle is at the end but a char in its middle is wrong
+    assert(ctk_strrstr(">X,3?in.a{g>>qRc", "{g><qRc") == NULL);
+    // Needle is at the end but its last char is wrong
+    assert(ctk_strrstr(">X,3?in.a{g>>qRc", "{g>>qRd") == NULL);
     printf("\t%s: OK\n", __func__);
 }
 /*------------------------------------------------------------------------------
