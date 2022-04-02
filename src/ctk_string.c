@@ -75,6 +75,19 @@ ptrdiff_t ctk_strpos(const char * const str, const char * const substr)
     return pos - str;
 }
 /*------------------------------------------------------------------------------
+    ctk_strrpos()
+------------------------------------------------------------------------------*/
+ptrdiff_t ctk_strrpos(const char * const str, const char * const substr)
+{
+    CTK_ERROR_RET_NEG_1_IF(str == NULL);
+    CTK_ERROR_RET_NEG_1_IF(substr == NULL);
+    const char * const pos = ctk_strrstr(str, substr);
+    if(pos == NULL) {
+        return -1;
+    }
+    return pos - str;
+}
+/*------------------------------------------------------------------------------
     ctk_strrstr()
 ------------------------------------------------------------------------------*/
 /*! @cast Dropping the `const` qualifier when returning the result is necessary

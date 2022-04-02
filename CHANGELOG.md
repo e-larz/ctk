@@ -23,7 +23,8 @@ which says in its summary:
   - `CTK_ERROR_RET_NEG_1_IF()` Makes a function return `-1` if the given
     condition is true.
 - `ctk_string.h`
-  - `ctk_strpos()`: Finds the first occurrence of a substring in a string and returns its position.
+  - `ctk_strpos()`: Finds the first position of a substring in a string.
+  - `ctk_strrpos()`: Finds the last position of a substring in a string.
   - `ctk_strtolower()`: Converts in-place a null-terminated string to lower case.
   - `ctk_strtoupper()`: Converts in-place a null-terminated string to upper case.
   - `ctk_strrstr()`: Finds the last occurrence of a substring in a string.
