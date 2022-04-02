@@ -23,6 +23,7 @@ which says in its summary:
   - `CTK_ERROR_RET_NEG_1_IF()` Makes a function return `-1` if the given
     condition is true.
 - `ctk_string.h`
+  - `ctk_stpcpy()`: Copies a string and returns a pointer to the end of the copied string.
   - `ctk_strpos()`: Finds the first position of a substring in a string.
   - `ctk_strrpos()`: Finds the last position of a substring in a string.
   - `ctk_strtolower()`: Converts in-place a null-terminated string to lower case.

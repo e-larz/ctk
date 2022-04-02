@@ -49,6 +49,31 @@
     PUBLIC FUNCTION
 ==============================================================================*/
 /*------------------------------------------------------------------------------
+    ctk_stpcpy()
+------------------------------------------------------------------------------*/
+/**
+ * Copies a string and returns a pointer to the end of the copied string.
+ *
+ * - The null-terminated string pointed by \p{src} is copied(including the
+ *   terminating null character) into the character array pointed by \p{dest}.
+ * - Works as `strcpy()` except for the following point:
+ *     - Returns a pointer to the terminating null character of \p{dest}.
+ *
+ * @param[out] dest : The array where to copy \p{src}.
+ * @param[in]  src  : The string to copy.
+ *
+ * @return
+ * - @success: A pointer to the terminating null character of \p{dest}.
+ * - @failure: `NULL`.
+ *
+ * @warning
+ * - \b [UB] \p{src} must be a pointer to a null-terminated string.
+ * - \b [UB] \p{src} and \p{dest} must not overlap.
+ * - \b [UB] The size of the array pointed by \p{dest} must be equal or greater
+ *           than the size of the array pointed by \p{src}.
+ */
+char * ctk_stpcpy(char * restrict dest, const char * restrict src);
+/*------------------------------------------------------------------------------
     ctk_strerror_r()
 ------------------------------------------------------------------------------*/
 /**

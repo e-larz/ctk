@@ -37,6 +37,7 @@
 /*==============================================================================
     FUNCTION DECLARATION
 ==============================================================================*/
+static void TEST_ctk_stpcpy(void);
 static void TEST_ctk_strerror_r(void);
 static void TEST_ctk_strpos(void);
 static void TEST_ctk_strrpos(void);
@@ -57,6 +58,7 @@ static void TEST_ctk_toupper(void);
 void TEST_ctk_string(void)
 {
     printf("%s:\n", __func__);
+    TEST_ctk_stpcpy();
     TEST_ctk_strerror_r();
     TEST_ctk_strpos();
     TEST_ctk_strrpos();
@@ -68,6 +70,67 @@ void TEST_ctk_string(void)
     TEST_ctk_strtrimr();
     TEST_ctk_tolower();
     TEST_ctk_toupper();
+}
+/*------------------------------------------------------------------------------
+    TEST_ctk_stpcpy()
+------------------------------------------------------------------------------*/
+static void TEST_ctk_stpcpy(void)
+{
+    // Src and dest are NULL
+    assert(ctk_stpcpy(NULL, NULL) == NULL);
+    // Src is NULL and dest is empty
+    assert(ctk_stpcpy(NULL, "") == NULL);
+    // Src is size 1 and empty and dest is NULL
+    char str_1_empty_null[] = "";
+    assert(ctk_stpcpy(str_1_empty_null, NULL) == NULL);
+    // Src is size 1 and empty and dest is empty
+    char str_1_empty_empty[] = "";
+    assert(ctk_stpcpy(str_1_empty_empty, "") == str_1_empty_empty);
+    assert(strcmp(str_1_empty_empty, "") == 0);
+    // Src is size 1 and uninitialized and dest is empty
+    char str_1_uninit_empty[1];
+    assert(ctk_stpcpy(str_1_uninit_empty, "") == str_1_uninit_empty);
+    assert(strcmp(str_1_uninit_empty, "") == 0);
+    // Src is size 6 and uninitialized and dest is empty
+    char str_6_uninit_empty[6];
+    assert(ctk_stpcpy(str_6_uninit_empty, "") == str_6_uninit_empty);
+    assert(strcmp(str_6_uninit_empty, "") == 0);
+    // Src is initialized without a NUL char and dest is empty
+    char str_init_no_nul_empty[] = {'1', '2', '3', '4', '5', '6'};
+    assert(ctk_stpcpy(str_init_no_nul_empty, "") == str_init_no_nul_empty);
+    assert(strcmp(str_init_no_nul_empty, "") == 0);
+    // Src is initialized with a NUL char in the middle dest is empty
+    char str_init_nul_middle_empty[] = {'1', '2', '3', '\0', '5', '6'};
+    assert(ctk_stpcpy(str_init_nul_middle_empty, "") == str_init_nul_middle_empty);
+    assert(strcmp(str_init_nul_middle_empty, "") == 0);
+    assert(strcmp(str_init_nul_middle_empty+1, "23") == 0);
+    // Src is initialized with a NUL char at the end and dest is empty
+    char str_init_nul_end_empty[] = {'1', '2', '3', '4', '5', '\0'};
+    assert(ctk_stpcpy(str_init_nul_end_empty, "") == str_init_nul_end_empty);
+    assert(strcmp(str_init_nul_end_empty, "") == 0);
+    assert(strcmp(str_init_nul_end_empty+1, "2345") == 0);
+    // Src is uninitialized and dest is not empty
+    char str_uninit_not_empty[4];
+    assert(ctk_stpcpy(str_uninit_not_empty, "abc") == str_uninit_not_empty+3);
+    assert(strcmp(str_uninit_not_empty, "abc") == 0);
+    assert(strcmp(str_uninit_not_empty+3, "") == 0);
+    // Src is initialized without a NUL char and dest is not empty
+    char str_init_no_nul_not_empty[] = {'1', '2', '3', '4', '5', '6'};
+    assert(ctk_stpcpy(str_init_no_nul_not_empty, "abc") == str_init_no_nul_not_empty+3);
+    assert(strcmp(str_init_no_nul_not_empty, "abc") == 0);
+    assert(strcmp(str_init_no_nul_not_empty+3, "") == 0);
+    // Src is initialized with a NUL char in the middle dest is not empty
+    char str_init_nul_middle_not_empty[] = {'1', '2', '3', '\0', '5', '6'};
+    assert(ctk_stpcpy(str_init_nul_middle_not_empty, "abc") == str_init_nul_middle_not_empty+3);
+    assert(strcmp(str_init_nul_middle_not_empty, "abc") == 0);
+    assert(strcmp(str_init_nul_middle_not_empty+3, "") == 0);
+    // Src is initialized with a NUL char at the and dest is not empty
+    char str_init_middle_not_empty[] = {'1', '2', '3', '4', '5', '\0'};
+    assert(ctk_stpcpy(str_init_middle_not_empty, "abc") == str_init_middle_not_empty+3);
+    assert(strcmp(str_init_middle_not_empty, "abc") == 0);
+    assert(strcmp(str_init_middle_not_empty+3, "") == 0);
+    assert(strcmp(str_init_middle_not_empty+4, "5") == 0);
+    printf("\t%s: OK\n", __func__);
 }
 /*------------------------------------------------------------------------------
     TEST_ctk_strerror_r()

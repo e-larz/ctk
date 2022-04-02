@@ -40,6 +40,20 @@
     PUBLIC FUNCTION
 ==============================================================================*/
 /*------------------------------------------------------------------------------
+    ctk_stpcpy()
+------------------------------------------------------------------------------*/
+char * ctk_stpcpy(char * restrict const dest, const char * restrict const src)
+{
+    CTK_ERROR_RET_NULL_IF(dest == NULL);
+    CTK_ERROR_RET_NULL_IF(src == NULL);
+#if defined(CTK_POSIX)
+    return stpcpy(dest, src);
+//! @todo Support non-POSIX platforms
+#else
+    return NULL;
+#endif
+}
+/*------------------------------------------------------------------------------
     ctk_strerror_r()
 ------------------------------------------------------------------------------*/
 int ctk_strerror_r(const int errnum, char * const result, const size_t length)
