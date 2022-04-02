@@ -28,9 +28,9 @@
 #include <assert.h>
 #include <ctype.h>  // tolower(), toupper()
 #include <errno.h>
-#include <limits.h> // UCHAR_MAX
+#include <limits.h> // INT_MAX, UCHAR_MAX
 #include <stdio.h>  // EOF, printf()
-#include <string.h> // strcmp(), strerror()
+#include <string.h> // NULL, strcmp(), strerror()
 /*==============================================================================
     MACRO
 ==============================================================================*/
@@ -38,6 +38,7 @@
     FUNCTION DECLARATION
 ==============================================================================*/
 static void TEST_ctk_strerror_r(void);
+static void TEST_ctk_strpos(void);
 static void TEST_ctk_strrstr(void);
 static void TEST_ctk_strtolower(void);
 static void TEST_ctk_strtoupper(void);
@@ -56,6 +57,7 @@ void TEST_ctk_string(void)
 {
     printf("%s:\n", __func__);
     TEST_ctk_strerror_r();
+    TEST_ctk_strpos();
     TEST_ctk_strrstr();
     TEST_ctk_strtolower();
     TEST_ctk_strtoupper();
@@ -83,6 +85,63 @@ static void TEST_ctk_strerror_r(void)
     assert(strcmp(error, strerror(-1)) == 0);
     assert(ctk_strerror_r(0, NULL, CTK_STRING_ERR_LENGTH) == EINVAL);
     assert(ctk_strerror_r(0, error, 0) == ERANGE);
+    printf("\t%s: OK\n", __func__);
+}
+/*------------------------------------------------------------------------------
+    TEST_ctk_strpos()
+------------------------------------------------------------------------------*/
+static void TEST_ctk_strpos(void)
+{
+    // Haystack and needle are NULL
+    assert(ctk_strpos(NULL, NULL) == -1);
+    // Haystack is NULL and needle is empty
+    assert(ctk_strpos(NULL, "") == -1);
+    // Haystack is empty and needle is NULL
+    assert(ctk_strpos("", NULL) == -1);
+    // Haystack and needle are empty
+    assert(ctk_strpos("", "") == 0);
+    // Haystack is random and needle is empty
+    assert(ctk_strpos(">X,3?in.a{g>>qRc", "") == 0);
+    // Haystack is empty and needle is random
+    assert(ctk_strpos("", ">X,3?in.a{g>>qRc") == -1);
+    // Haystack is a truncated needle
+    assert(ctk_strpos(">X,3?in", ">X,3?in.a{g>>qRc") == -1);
+    // Haystack and needle are one char long and don't match
+    assert(ctk_strpos("a", "b") == -1);
+    // Haystack and needle are one char long and match
+    assert(ctk_strpos("a", "a") == 0);
+    // Haystack and needle are multiple char long and match exactly
+    assert(ctk_strpos(">X,3?in.a{g>>qRc", ">X,3?in.a{g>>qRc") == 0);
+    // Needle is at the beggining of haystack
+    assert(ctk_strpos(">X,3?in.a{g>>qRc", ">X,3?in") == 0);
+    // Needle is in the middle of haystack
+    assert(ctk_strpos(">X,3?in.a{g>>qRc", "in.a{g>") == 5);
+    // Needle is at the end of haystack
+    assert(ctk_strpos(">X,3?in.a{g>>qRc", "{g>>qRc") == 9);
+    // Needle is at the end of haystack but has one char too many
+    assert(ctk_strpos(">X,3?in.a{g>>qRc", "{g>>qRcX") == -1);
+    // Haystack has multiple adjacent needles
+    assert(ctk_strpos(">X,3?i3?i3?i>qRc", "3?i") == 3);
+    // Haystack has multiple non-adjacent needles
+    assert(ctk_strpos(">X,3?in.3?i>3?ic", "3?i") == 3);
+    // Needle is at the beginning but its first char is wrong
+    assert(ctk_strpos(">X,3?in.a{g>>qRc", "<X,3?in") == -1);
+    // Needle is at the beginning but a char in its middle is wrong
+    assert(ctk_strpos(">X,3?in.a{g>>qRc", ">X,!3in") == -1);
+    // Needle is at the beginning but its last char is wrong
+    assert(ctk_strpos(">X,3?in.a{g>>qRc", ">X,3?im") == -1);
+    // Needle is in the middle but its first char is wrong
+    assert(ctk_strpos(">X,3?in.a{g>>qRc", "jn.a{g>") == -1);
+    // Needle is in the middle but a char in its middle is wrong
+    assert(ctk_strpos(">X,3?in.a{g>>qRc", "in.b{g>") == -1);
+    // Needle is in the middle but its last char is wrong
+    assert(ctk_strpos(">X,3?in.a{g>>qRc", "in.a{g<") == -1);
+    // Needle is at the end but its first char is wrong
+    assert(ctk_strpos(">X,3?in.a{g>>qRc", "}g>>qRc") == -1);
+    // Needle is at the end but a char in its middle is wrong
+    assert(ctk_strpos(">X,3?in.a{g>>qRc", "{g><qRc") == -1);
+    // Needle is at the end but its last char is wrong
+    assert(ctk_strpos(">X,3?in.a{g>>qRc", "{g>>qRd") == -1);
     printf("\t%s: OK\n", __func__);
 }
 /*------------------------------------------------------------------------------

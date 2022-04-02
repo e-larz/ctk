@@ -28,7 +28,7 @@
     INCLUDE
 ==============================================================================*/
 // C Standard Library
-#include <stddef.h> // size_t
+#include <stddef.h> // ptrdiff_t, size_t
 /*==============================================================================
     DEFINE
 ==============================================================================*/
@@ -80,6 +80,29 @@
  * - https://pubs.opengroup.org/onlinepubs/9699919799/functions/strerror.html
  */
 int ctk_strerror_r(int errnum, char * result, size_t length);
+/*------------------------------------------------------------------------------
+    ctk_strpos()
+------------------------------------------------------------------------------*/
+/**
+ * Finds the first occurrence of \p{substr} in \p{str} and returns its position.
+ *
+ * - Terminating null characters are excluded from the search.
+ * - Both \p{str} and \p{substr} can be string litterals.
+ *
+ * @param[in] str    : The string to search in.
+ * @param[in] substr : The string to search for.
+ *
+ * @return
+ * - @success:
+ *   - The position in \p{srt} of the first character from \p{substr}.
+ *   - '0' if \p{substr} is an empty string.
+ * - @failure: `-1`.
+ *
+ * @warning
+ * - \b [UB] \p{str} must be a pointer to a null-terminated string.
+ * - \b [UB] \p{substr} must be a pointer to a null-terminated string.
+ */
+ptrdiff_t ctk_strpos(const char * str, const char * substr);
 /*------------------------------------------------------------------------------
     ctk_strrstr()
 ------------------------------------------------------------------------------*/

@@ -28,11 +28,12 @@
 // Own header
 #include "ctk_string.h"
 // C Standard Library
-#include <ctype.h>  // tolower(), toupper()
+#include <ctype.h>  // isspace(), tolower(), toupper()
 #include <errno.h>
 #include <limits.h> // UCHAR_MAX
+#include <stddef.h> // NULL, ptrdiff_t, size_t
 #include <stdio.h>  // EOF, fputs()
-#include <string.h> // size_t, POSIX strerror_r()
+#include <string.h> // strerror_r(), strstr()
 // Internal
 #include "ctk_error.h"
 /*==============================================================================
@@ -59,6 +60,19 @@ int ctk_strerror_r(const int errnum, char * const result, const size_t length)
 #else
     return CTK_ERR_NO_SUPPORT;
 #endif
+}
+/*------------------------------------------------------------------------------
+    ctk_strpos()
+------------------------------------------------------------------------------*/
+ptrdiff_t ctk_strpos(const char * const str, const char * const substr)
+{
+    CTK_ERROR_RET_NEG_1_IF(str == NULL);
+    CTK_ERROR_RET_NEG_1_IF(substr == NULL);
+    const char * const pos = strstr(str, substr);
+    if(pos == NULL) {
+        return -1;
+    }
+    return pos - str;
 }
 /*------------------------------------------------------------------------------
     ctk_strrstr()
