@@ -24,6 +24,8 @@ which says in its summary:
     condition is true.
 - `ctk_string.h`
   - `ctk_stpcpy()`: Copies a string and returns a pointer to the end of the copied string.
+  - `ctk_stpncpy()`: Copies a given number of characters from an array and
+    returns a pointer to the last copied character.
   - `ctk_strpos()`: Finds the first position of a substring in a string.
   - `ctk_strrpos()`: Finds the last position of a substring in a string.
   - `ctk_strtolower()`: Converts in-place a null-terminated string to lower case.

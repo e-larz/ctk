@@ -56,8 +56,6 @@
  *
  * - The null-terminated string pointed by \p{src} is copied(including the
  *   terminating null character) into the character array pointed by \p{dest}.
- * - Works as `strcpy()` except for the following point:
- *     - Returns a pointer to the terminating null character of \p{dest}.
  *
  * @param[out] dest : The array where to copy \p{src}.
  * @param[in]  src  : The string to copy.
@@ -73,6 +71,39 @@
  *           than the size of the array pointed by \p{src}.
  */
 char * ctk_stpcpy(char * restrict dest, const char * restrict src);
+/*------------------------------------------------------------------------------
+    ctk_stpncpy()
+------------------------------------------------------------------------------*/
+/**
+ * Copies a given number of characters from an array and returns a pointer to
+ * the last copied character.
+ *
+ * - At most \p{cnt} characters from the array pointed by \p{src} are copied
+ *   (including a null character if found but stopping at it) into the character
+ *   array pointed by \p{dest}.
+ * - If \p{src} is pointing to a null-terminated string shorter than \p{cnt},
+ *   null characters are apprended to the array pointed by \p{dest} until
+ *   \p{cnt} characters haven been written to it in total.
+ *
+ * @param[out] dest : The array where to copy \p{src}.
+ * @param[in]  src  : The array to copy.
+ * @param[in]  cnt  : Maximum number of characters to copy.
+ *
+ * @return
+ * - @success:
+ *   - A pointer to the first null character copied into \p{dest}.
+ *   - A pointer to \p{dest} + \p{cnt} if no null character has been copied to
+ *     \p{dest}.
+ * - @failure: `NULL`.
+ *
+ * @warning
+ * - \b [UB] \p{src} and \p{dest} must not overlap.
+ * - \b [UB] The size of the array pointed by \p{dest} must be equal or greater
+ *           than \p{cnt}.
+ * - \b [UB] The size of the array pointed by \p{src} must be equal or greater
+ *           than \p{cnt} if the array isn't a null-terminated string.
+ */
+char * ctk_stpncpy(char * restrict dest, const char * restrict src, size_t cnt);
 /*------------------------------------------------------------------------------
     ctk_strerror_r()
 ------------------------------------------------------------------------------*/

@@ -54,6 +54,20 @@ char * ctk_stpcpy(char * restrict const dest, const char * restrict const src)
 #endif
 }
 /*------------------------------------------------------------------------------
+    ctk_stpncpy()
+------------------------------------------------------------------------------*/
+char * ctk_stpncpy(char * restrict const dest, const char * restrict const src, const size_t cnt)
+{
+    CTK_ERROR_RET_NULL_IF(dest == NULL);
+    CTK_ERROR_RET_NULL_IF(src == NULL);
+#if defined(CTK_POSIX)
+    return stpncpy(dest, src, cnt);
+//! @todo Support non-POSIX platforms
+#else
+    return NULL;
+#endif
+}
+/*------------------------------------------------------------------------------
     ctk_strerror_r()
 ------------------------------------------------------------------------------*/
 int ctk_strerror_r(const int errnum, char * const result, const size_t length)

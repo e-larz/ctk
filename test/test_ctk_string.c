@@ -38,6 +38,7 @@
     FUNCTION DECLARATION
 ==============================================================================*/
 static void TEST_ctk_stpcpy(void);
+static void TEST_ctk_stpncpy(void);
 static void TEST_ctk_strerror_r(void);
 static void TEST_ctk_strpos(void);
 static void TEST_ctk_strrpos(void);
@@ -59,6 +60,7 @@ void TEST_ctk_string(void)
 {
     printf("%s:\n", __func__);
     TEST_ctk_stpcpy();
+    TEST_ctk_stpncpy();
     TEST_ctk_strerror_r();
     TEST_ctk_strpos();
     TEST_ctk_strrpos();
@@ -130,6 +132,59 @@ static void TEST_ctk_stpcpy(void)
     assert(strcmp(str_init_middle_not_empty, "abc") == 0);
     assert(strcmp(str_init_middle_not_empty+3, "") == 0);
     assert(strcmp(str_init_middle_not_empty+4, "5") == 0);
+    printf("\t%s: OK\n", __func__);
+}
+/*------------------------------------------------------------------------------
+    TEST_ctk_stpncpy()
+------------------------------------------------------------------------------*/
+static void TEST_ctk_stpncpy(void)
+{
+    // Src and dest are NULL, cnt is 0
+    assert(ctk_stpncpy(NULL, NULL, 0) == NULL);
+    // Src and dest are NULL, cnt is not 0
+    assert(ctk_stpncpy(NULL, NULL, 6) == NULL);
+    // Dest is NULL, src is empty, cnt is 0
+    assert(ctk_stpncpy(NULL, "", 0) == NULL);
+    // Dest is NULL, src is empty, cnt is not 0
+    assert(ctk_stpncpy(NULL, "", 6) == NULL);
+    // Dest is not NULL, src is NULL, cnt is 0
+    char str_1_null_0[] = "";
+    assert(ctk_stpncpy(str_1_null_0, NULL, 0) == NULL);
+    // Dest is not NULL, src is NULL, cnt is not 0
+    char str_1_null_not_0[] = "";
+    assert(ctk_stpncpy(str_1_null_not_0, NULL, 6) == NULL);
+    // Dest is size 6, src is empty, cnt is 3
+    char str_6_empty_3[] = "01234";
+    assert(ctk_stpncpy(str_6_empty_3, "", 3) == str_6_empty_3);
+    for(int i = 0; i < 3; i++) {
+        assert(str_6_empty_3[i] == '\0');
+    }
+    assert(strcmp(str_6_empty_3+3, "34") == 0);
+    // Dest is size 6, src is empty, cnt is 6
+    char str_6_empty_6[] = "01234";
+    assert(ctk_stpncpy(str_6_empty_6, "", 6) == str_6_empty_6);
+    for(int i = 0; i < 6; i++) {
+        assert(str_6_empty_6[i] == '\0');
+    }
+    // Dest is size 6, src is size 6, cnt is 0
+    char str_6_6_0[] = "01234";
+    assert(ctk_stpncpy(str_6_6_0, "abcde", 0) == str_6_6_0);
+    assert(strcmp(str_6_6_0, "01234") == 0);
+    // Dest is size 6, src is size 6, cnt is 3
+    char str_6_6_3[] = "01234";
+    assert(ctk_stpncpy(str_6_6_3, "abcde", 3) == str_6_6_3+3);
+    assert(strcmp(str_6_6_3, "abc34") == 0);
+    // Dest is size 6, src is size 6, cnt is 6
+    char str_6_6_6[] = "01234";
+    assert(ctk_stpncpy(str_6_6_6, "abcde", 6) == str_6_6_6+5);
+    assert(strcmp(str_6_6_6, "abcde") == 0);
+    // Dest is size 11, src is size 6, cnt is 11
+    char str_10_6_10[] = "0123456789";
+    assert(ctk_stpncpy(str_10_6_10, "abcde", 11) == str_10_6_10+5);
+    assert(strcmp(str_10_6_10, "abcde") == 0);
+    for(int i = 5; i < 11; i++) {
+        assert(str_10_6_10[i] == '\0');
+    }
     printf("\t%s: OK\n", __func__);
 }
 /*------------------------------------------------------------------------------
